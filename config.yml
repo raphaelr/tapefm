@@ -1,0 +1,10 @@
+:encoder:
+    :command: codec/oggenc2 --quiet -b 128 - -o -
+    :mime: application/ogg
+:decoders:
+    mp3: codec/lame --quiet --decode "$fn" -
+    flac: codec/flac -d -c -s "$fn"
+:library:
+    :path: m:/
+    :glob: "**/*.{mp3,flac}"
+

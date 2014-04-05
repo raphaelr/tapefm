@@ -1,0 +1,101 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:500,400);
+@import "reset";
+@import "glyphicons";
+
+$header-bg: #ff9c00;
+$header-bg-alt: #ffc973;
+$list-a-box: #500ead;
+$list-a-text: #9c6ad6;
+$list-b-box: #34d800;
+$list-b-text: #89ec6a;
+
+body, html, #page {
+    height: 100%;
+}
+
+#page {
+    font-family: Roboto, sans-serif;
+
+    display: flex;
+    flex-flow: column;
+
+    article {
+        flex: 1 1 auto;
+    }
+
+    header, footer {
+        flex: 0 1 auto;
+    }
+}
+
+header, footer {
+    font-weight: 500;
+    font-size: 36px;
+}
+
+header {
+    background-color: $header-bg;
+
+    .path {
+        display: flex;
+        margin-right: 14px;
+
+        .dir {
+            padding: 5px;
+        }
+
+        .dir:nth-child(even) {
+            background-color: $header-bg-alt;
+        }
+    }
+}
+
+footer {
+    background-color: $header-bg;
+    display: flex;
+
+    &>* {
+        padding: 10px;
+    }
+
+    .state, .skip {
+        flex-grow: 1;
+    }
+
+    .song {
+        background-color: $header-bg-alt;
+        text-align: center;
+        flex-grow: 3;
+    }
+
+    .skip {
+        text-align: right;
+    }
+}
+
+article {
+    font-weight: 400;
+    font-size: 30px;
+
+    table {
+        width: 100%;
+    }
+
+    tr:nth-child(even) {
+        border-bottom: 5px solid white;
+    }
+
+    .box {
+        width: 100px;
+    }
+
+    .text {
+        height: 40px;
+        vertical-align: middle;
+    }
+
+    .a.box { background-color: $list-a-box; }
+    .a.text { background-color: $list-a-text; }
+    .b.box { background-color: $list-b-box; }
+    .b.text { background-color: $list-b-text; }
+}
