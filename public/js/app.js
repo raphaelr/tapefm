@@ -1,19 +1,61 @@
 $(function() {
     "use strict";
 
-    var app = {
+    var player = {
+        current: null,
+        queue: [],
+    };
+    window.player = player;
+
+    player.play = function(filename) {
+        player.queue = [filename];
+        player.next();
+    };
+
+    player.loadNext = function() {
+        if(!player.queue.length) {
+            player.queue.push(library.fsFlat[Math.floor(library.fsFlat.length * Math.random())]);
+        }
+        player.queue[0] = player.preload(player.queue[0]);
+    };
+
+    player.next = function() {
+        if(player.current) {
+            player.current.pause();
+            player.current.src = "";
+            player.current.load();
+            player.current = null;
+        }
+        player.current = player.preload(player.queue.shift());
+        player.current.play();
+        player.loadNext();
+        $(".song").text(player.current.filename.split("/").pop());
+    };
+
+    player.preload = function(filename) {
+        if(typeof filename !== "string") return filename;
+        var audio = new Audio("/music/" + filename);
+        $(audio).on("ended", function() {
+            player.next();
+        });
+        audio.filename = filename;
+        audio.load();
+        return audio;
+    };
+
+    var library = {
         fs: null,
         fsFlat: null,
         cwd: null,
     };
-    window.app = app;
+    window.library = library;
 
-    app.loadLibrary = function() {
+    library.loadLibrary = function() {
         return $.get("/library").then(function(files) {
-            app.fsFlat = files;
-            app.fs = { ".fullpath": "" };
+            library.fsFlat = files;
+            library.fs = { ".fullpath": "" };
             files.forEach(function(f) {
-                var head = app.fs;
+                var head = library.fs;
                 var fullpath = "";
                 f.split("/").forEach(function(part, i, split) {
                     fullpath += part + "/";
@@ -32,57 +74,49 @@ $(function() {
         });
     };
 
-    app.launch = function(dir, filename) {
+    library.launch = function(dir, filename) {
         if(dir[filename] === true) {
-            app.play(dir[".fullpath"] + filename);
+            player.play(dir[".fullpath"] + filename);
         } else if(filename in dir) {
-            app.chdir(dir[filename]);
+            library.chdir(dir[filename]);
         }
     };
 
-    app.chdir = function(dir) {
-        app.cwd = dir;
+    library.chdir = function(dir) {
+        library.cwd = dir;
         // Path
         var path = $(".path").empty();
         path.append($("<div class='dir glyphicon glyphicon-music'></div>").click(function() {
-            app.chdir(app.fs);
+            library.chdir(library.fs);
         }));
-        var head = app.fs;
+        var head = library.fs;
         dir[".fullpath"].split("/").forEach(function(x) {
             if(x === "") { return; }
             head = head[x] || head;
             var localHead = head;
             var tag = $("<div class='dir'></div>").text(x).click(function() {
-                app.chdir(localHead);
+                library.chdir(localHead);
             });
             path.append(tag);
         });
 
         // List
-        var table = $("article table").empty();
+        var list = $("article ul").empty();
         var keys = Object.keys(dir).filter(function(x) { return x[0] !== "."; }).sort();
-        for(var i=0; i<keys.length; i+=2) {
-            var a = keys[i], b = keys[i+1];
-            var r1 = $("<tr></tr>"), r2 = $("<tr></tr>");
-            var t1 = $("<td class='a box' rowspan='2'></td>");
-            var t2 = $("<td class='a text'></td>");
-            var t3 = $(b ? "<td rowspan='2' class='b box'></td>" : "<td rowspan='2' class='box'></td>");
-            var t4 = $(b ? "<td class='b text'></td>" : "<td class='text'></td>");
-            t2.text(a);
-            if(b) t4.text(b);
-            r1.append([t1, t2, t3]);
-            r2.append(t4);
-            table.append([r1, r2]);
-
-            [[t1, a], [t2, a], [t3, b], [t4, b]].forEach(function(p) {
-                $(p[0]).click(function() {
-                    app.launch(dir, p[1]);
-                });
+        keys.forEach(function(key) {
+            var li = $("<li></li>");
+            if(dir[key] !== true) {
+                li.addClass("dir");
+            }
+            li.text(key);
+            list.append(li);
+            li.click(function() {
+                library.launch(dir, key);
             });
-        }
+        });
     };
 
-    app.loadLibrary().then(function() {
-        app.chdir(app.fs);
+    library.loadLibrary().then(function() {
+        library.chdir(library.fs);
     });
 });

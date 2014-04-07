@@ -3,10 +3,8 @@
 
 $header-bg: #ff9c00;
 $header-bg-alt: #ffc973;
-$list-a-box: #500ead;
-$list-a-text: #9c6ad6;
-$list-b-box: #34d800;
-$list-b-text: #89ec6a;
+$list-a: #9c6ad6;
+$list-b: #89ec6a;
 
 * {
     -webkit-user-select: none;
@@ -88,25 +86,14 @@ article {
     font-size: 30px;
     overflow: auto;
 
-    table {
-        width: 100%;
-    }
-
-    tr:nth-child(even) {
-        border-bottom: 5px solid white;
-    }
-
-    .box {
-        width: 100px;
-    }
-
-    .text {
-        height: 40px;
+    li {
+        background-color: $list-b;
+        line-height: 1.3;
         vertical-align: middle;
+        border-bottom: 2px solid white;
     }
 
-    .a.box { background-color: $list-a-box; }
-    .a.text { background-color: $list-a-text; }
-    .b.box { background-color: $list-b-box; }
-    .b.text { background-color: $list-b-text; }
+    li.dir {
+        background-color: $list-a;
+    }
 }

@@ -10,31 +10,18 @@ class Transcoder
     BLOCKSIZE = 1024*50
 
     def initialize(fn)
-        decoder = Config[:decoder][File.extname(fn).slice(1..-1)].gsub("$fn", fn)
-        @dec = IO.popen(decoder, "rb")
-        @enc = IO.popen(Config[:encoder][:command], "w+b")
+        decoder = Config[:decoders][File.extname(fn).slice(1..-1)].gsub("$fn", fn)
+        @pipe = IO.popen("#{decoder} | #{Config[:encoder][:command]}", "rb")
     end
 
     def each
-        decoding = true
         while true
-            if decoding
-                begin
-                    decoded = @dec.readpartial(BLOCKSIZE)
-                    @enc.write(decoded)
-                rescue EOFError
-                    @enc.close_write
-                    decoding = false
-                end
-            end
-
-            next unless IO.select([@enc], [], [], 0)
             begin
-                encoded = @enc.readpartial(BLOCKSIZE)
-                yield encoded
+                buffer = @pipe.readpartial(BLOCKSIZE)
+                yield buffer
             rescue EOFError
-                @enc.close_read
-                break
+                @pipe.close
+                return
             end
         end
     end
