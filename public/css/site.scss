@@ -25,14 +25,13 @@ body, html, #page {
     display: flex;
     flex-flow: column;
     overflow: hidden;
-    min-height: 0px;
 
     article {
         flex: 1 1 auto;
     }
 
     header, footer {
-        flex: 0 1 auto;
+        flex: 0 0 auto;
     }
 }
 
@@ -47,6 +46,8 @@ header {
     .path {
         display: flex;
         margin-right: 14px;
+        white-space: nowrap;
+        overflow: auto;
 
         .dir {
             padding: 5px;
@@ -74,6 +75,8 @@ footer {
         background-color: $header-bg-alt;
         text-align: center;
         flex-grow: 3;
+        white-space: nowrap;
+        overflow: auto;
     }
 
     .skip {

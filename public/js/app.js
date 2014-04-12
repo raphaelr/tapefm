@@ -26,10 +26,11 @@ $(function() {
             player.current.load();
             player.current = null;
         }
-        player.current = player.preload(player.queue.shift());
+        player.loadNext();
+        player.current = player.queue.shift();
         player.current.play();
         player.loadNext();
-        $(".song").text(player.current.filename.split("/").pop());
+        $(".song").text(player.current.filename);
     };
 
     player.preload = function(filename) {
@@ -118,5 +119,9 @@ $(function() {
 
     library.loadLibrary().then(function() {
         library.chdir(library.fs);
+    });
+
+    $(".skip").click(function() {
+        player.next();
     });
 });
