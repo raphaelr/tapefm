@@ -29,19 +29,36 @@ $(function() {
         player.loadNext();
         player.current = player.queue.shift();
         player.current.play();
-        player.loadNext();
         $(".song").text(player.current.filename);
+        $(".state").removeClass("glyphicon-play");
+        $(".state").addClass("glyphicon-pause");
     };
 
     player.preload = function(filename) {
         if(typeof filename !== "string") return filename;
         var audio = new Audio("/music/" + filename);
-        $(audio).on("ended", function() {
+        $(audio).one("ended", function() {
             player.next();
+        });
+        $(audio).one("suspend", function() {
+            player.loadNext();
         });
         audio.filename = filename;
         audio.load();
         return audio;
+    };
+    
+    player.togglePause = function() {
+        if(!player.current) return;
+        if(player.current.paused) {
+            player.current.play();
+            $(".state").removeClass("glyphicon-play");
+            $(".state").addClass("glyphicon-pause");
+        } else {
+            player.current.pause();
+            $(".state").removeClass("glyphicon-pause");
+            $(".state").addClass("glyphicon-play");
+        }
     };
 
     var library = {
@@ -123,5 +140,9 @@ $(function() {
 
     $(".skip").click(function() {
         player.next();
+    });
+
+    $(".state").click(function() {
+        player.togglePause();
     });
 });

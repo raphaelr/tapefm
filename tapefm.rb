@@ -56,7 +56,7 @@ get "/library" do
     dump_library
 end
 
-post "/library/refresh" do
+get "/library/refresh" do
     refresh_library
     dump_library
 end

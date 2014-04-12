@@ -51,6 +51,7 @@ header {
 
         .dir {
             padding: 5px;
+            flex: 0 0 auto;
         }
 
         .dir:nth-child(even) {
@@ -68,19 +69,15 @@ footer {
     }
 
     .state, .skip {
-        flex-grow: 1;
+        flex: 0 0 auto;
     }
 
     .song {
+        flex: 1 1 auto;
         background-color: $header-bg-alt;
         text-align: center;
-        flex-grow: 3;
         white-space: nowrap;
         overflow: auto;
-    }
-
-    .skip {
-        text-align: right;
     }
 }
 
