@@ -14,15 +14,13 @@ class Transcoder
         @pipe = IO.popen("#{decoder} | #{Config[:encoder][:command]}", "rb")
     end
 
-    def each
-        while true
-            begin
-                buffer = @pipe.readpartial(BLOCKSIZE)
-                yield buffer
-            rescue EOFError
-                @pipe.close
-                return
-            end
+    def next_block
+        begin
+            buffer = @pipe.readpartial(BLOCKSIZE)
+            return buffer
+        rescue EOFError
+            @pipe.close
+            return nil
         end
     end
 end
@@ -37,7 +35,18 @@ get "/music/*" do
     realname = File.expand_path(File.join(base, params[:splat].join("/")))
     return 404 unless realname.start_with? base
     return 404 unless File.exist? realname
-    [200, { "Content-Type" => Config[:encoder][:mime] }, Transcoder.new(realname)]
+
+    status 200
+    headers "Content-Type" => Config[:encoder][:mime]
+
+    t = Transcoder.new(realname)
+    stream do |out|
+        while true
+            b = t.next_block
+            break unless b
+            out << b
+        end
+    end
 end
 # }}}
 # Library {{{
