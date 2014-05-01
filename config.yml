@@ -1,5 +1,5 @@
 :encoder:
-    :command: oggenc --quiet -b 64 - -o -
+    :command: oggenc --quiet -b 128 - -o -
     :mime: application/ogg
 :decoders:
     mp3: lame --quiet --decode "$fn" -
