@@ -9,19 +9,28 @@ Config = YAML.load_file("config.yml")
 class Transcoder
     BLOCKSIZE = 1024*50
 
+    attr_reader :current_block
+
     def initialize(fn)
-        decoder = Config[:decoders][File.extname(fn).slice(1..-1)].gsub("$fn", fn)
-        @pipe = IO.popen("#{decoder} | #{Config[:encoder][:command]}", "rb")
+        @pipe = IO.popen(get_transcode_command(fn), "rb")
     end
 
-    def next_block
+    def fetch_block
         begin
-            buffer = @pipe.readpartial(BLOCKSIZE)
-            return buffer
+            @current_block = @pipe.readpartial(BLOCKSIZE)
+            return true
         rescue EOFError
             @pipe.close
-            return nil
+            return false
         end
+    end
+
+    private
+    def get_transcode_command(fn)
+        extension = File.extname(fn).slice(1..-1)
+        decoder_cmd = Config[:decoders][extension].gsub("$fn", fn)
+        encoder_cmd = Config[:encoder][:command]
+        "#{decoder_cmd} | #{encoder_cmd}"
     end
 end
 # }}}
@@ -40,13 +49,7 @@ get "/music/*" do
     headers "Content-Type" => Config[:encoder][:mime]
 
     t = Transcoder.new(realname)
-    stream do |out|
-        while true
-            b = t.next_block
-            break unless b
-            out << b
-        end
-    end
+    stream { |out| out << t.current_block while t.fetch_block }
 end
 # }}}
 # Library {{{
