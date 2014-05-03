@@ -1,8 +1,8 @@
 :encoder:
-    :command: oggenc --quiet -b 128 - -o -
+    :command: oggenc -Q -b 128 - -o -
     :mime: application/ogg
 :decoders:
-    mp3: lame --quiet --decode "$fn" -
+    mp3: lame -S --decode "$fn" -
     flac: flac -d -c -s "$fn"
 :library:
     :path: /srv/music/
