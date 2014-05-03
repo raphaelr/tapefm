@@ -16,6 +16,7 @@
         render: function(dir) {
             this.container.empty();
             this.addEntries(dir);
+            this.container.scrollTop(0);
         },
 
         addEntries: function(dir) {
@@ -30,7 +31,7 @@
         },
 
         createEntry: function(entry) {
-            var li = $("<li>");
+            var li = $("<div>");
             li.text(entry.name);
             this.attachBehaviour(li, entry);
             return li;

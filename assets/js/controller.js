@@ -5,6 +5,7 @@
         this.view = view;
         this.library = new tapefm.Library();
         this.player = new tapefm.Player();
+
         this.player.getRandomFile = function() {
             return this.library.getRandomFile().getFullPath();
         }.bind(this);
