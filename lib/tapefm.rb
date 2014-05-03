@@ -1,9 +1,10 @@
-require "bundler/setup"
 require "sinatra"
 require "yaml"
 require "json"
 
 Config = YAML.load_file("config.yml")
+
+set :public_folder, File.join(File.dirname(__FILE__), "..", "public")
 
 # Transcoder {{{
 class Transcoder

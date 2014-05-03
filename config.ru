@@ -1,6 +1,6 @@
 require "bundler/setup"
 require "sprockets"
-require "./tapefm"
+require "./lib/tapefm"
 
 map "/assets" do
     env = Sprockets::Environment.new
