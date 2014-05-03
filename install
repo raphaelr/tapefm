@@ -13,11 +13,11 @@ execute() {
 
 TARGET_DIR=~tapefm/app
 
-execute "svc -d /service/tapefm"
+execute "systemctl stop tapefm"
 execute "rm -rf $TARGET_DIR/*"
 
-for fn in `find -type f -not -path '*/\.*' -not -name '*.scss'`; do
+for fn in `find -type f -not -path '*/\.*'` ; do
     execute "install -D -o tapefm -g tapefm -m 644 $fn $TARGET_DIR/${fn:2}"
 done
 
-execute "svc -u /service/tapefm"
+execute "systemctl start tapefm"
