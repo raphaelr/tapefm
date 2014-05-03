@@ -5,6 +5,9 @@
         this.view = view;
         this.library = new tapefm.Library();
         this.player = new tapefm.Player();
+        this.player.getRandomFile = function() {
+            return this.library.getRandomFile().getFullPath();
+        }.bind(this);
 
         delegate(this, view, "on");
         delegate(this, view, "one");
@@ -45,10 +48,7 @@
         },
 
         skip: function() {
-            var file = this.library.getRandomFile();
-            if(file) {
-                this.play(file);
-            }
+            this.player.playNext();
         },
 
         getView: function() {
