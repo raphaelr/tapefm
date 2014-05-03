@@ -39,6 +39,14 @@
 
         getParent: function() {
             return this.parent;
+        },
+
+        getFullPath: function() {
+            var result = "";
+            if(this.parent) {
+                result += this.parent.getFullPath();
+            }
+            return result + "/" + (this.name || "");
         }
     };
     

@@ -39,6 +39,8 @@
         attachBehaviour: function(li, entry) {
             if(entry instanceof tapefm.Directory) {
                 this.attachDirectoryBehaviour(li, entry);
+            } else if(entry instanceof tapefm.File) {
+                this.attachFileBehaviour(li, entry);
             }
         },
 
@@ -47,7 +49,13 @@
             li.click(function() {
                 this.controller.chdir(entry);
             }.bind(this));
-        }
+        },
+
+        attachFileBehaviour: function(li, entry) {
+            li.click(function() {
+                this.controller.play(entry);
+            }.bind(this));
+        },
     };
 
 

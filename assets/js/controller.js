@@ -3,6 +3,9 @@
 
     function Controller(view) {
         this.view = view;
+        this.library = null;
+        this.player = new tapefm.Player();
+
         delegate(this, view, "on");
         delegate(this, view, "one");
         delegate(this, view, "trigger");
@@ -25,6 +28,10 @@
             this.trigger("tapefm:chdir", directory);
         },
 
+        play: function(file) {
+            this.player.play(file.getFullPath());
+        },
+
         getView: function() {
             return this.view;
         },
@@ -32,6 +39,10 @@
         getLibrary: function() {
             return this.library;
         },
+
+        getPlayer: function() {
+            return this.player;
+        }
     };
 
     function delegate(target, source, name) {
