@@ -3,7 +3,7 @@
 
     function Controller(view) {
         this.view = view;
-        this.library = null;
+        this.library = new tapefm.Library();
         this.player = new tapefm.Player();
 
         delegate(this, view, "on");
@@ -41,6 +41,13 @@
             } else {
                 this.player.pause();
                 this.trigger("tapefm:pause");
+            }
+        },
+
+        skip: function() {
+            var file = this.library.getRandomFile();
+            if(file) {
+                this.play(file);
             }
         },
 

@@ -25,6 +25,18 @@
                 head = head.getOrCreateDirectory(currentDirectory);
             });
             return head;
+        },
+
+        getRandomFile: function() {
+            var current = this.root;
+            while(!(current instanceof File)) {
+                var entries = current.getEntriesArray();
+                if(entries.length === 0) {
+                    return null;
+                }
+                current = entries[Math.floor(Math.random() * entries.length)];
+            }
+            return current;
         }
     };
 

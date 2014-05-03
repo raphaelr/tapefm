@@ -23,6 +23,10 @@
             $(".state", this.container).click(function() {
                 this.controller.togglePause();
             }.bind(this));
+
+            $(".skip", this.container).click(function() {
+                this.controller.skip();
+            }.bind(this));
         },
         
         setSong: function(song) {
