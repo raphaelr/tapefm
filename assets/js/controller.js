@@ -3,7 +3,11 @@
 
     function Controller(view) {
         this.view = view;
-        view.on("tapefm:ready", this.reset.bind(this));
+        delegate(this, view, "on");
+        delegate(this, view, "one");
+        delegate(this, view, "trigger");
+
+        this.on("tapefm:ready", this.reset.bind(this));
     }
     Controller.prototype = {
         reset: function() {
@@ -18,7 +22,7 @@
         },
 
         chdir: function(directory) {
-            this.view.trigger("tapefm:chdir", directory);
+            this.trigger("tapefm:chdir", directory);
         },
 
         getView: function() {
@@ -29,6 +33,10 @@
             return this.library;
         },
     };
+
+    function delegate(target, source, name) {
+        target[name] = source[name].bind(source);
+    }
 
     $.extend(tapefm, {
         Controller: Controller

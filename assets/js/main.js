@@ -8,7 +8,7 @@ $(function() {
     var breadcrumbs = new tapefm.Breadcrumbs($("header .path"), controller);
     var directoryListing = new tapefm.DirectoryListing($("article ul"), controller);
 
-    view.trigger("tapefm:ready");
+    controller.trigger("tapefm:ready");
 
     $.extend(tapefm, {
         mainView: view,

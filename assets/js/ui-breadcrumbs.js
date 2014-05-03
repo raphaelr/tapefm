@@ -8,7 +8,7 @@
     }
     Breadcrumbs.prototype = {
         attach: function() {
-            this.controller.getView().on("tapefm:chdir", function(ev, dir) {
+            this.controller.on("tapefm:chdir", function(ev, dir) {
                 this.render(dir);
             }.bind(this));
         },
