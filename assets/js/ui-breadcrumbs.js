@@ -25,7 +25,7 @@
         },
 
         createBreadcrumb: function(dir) {
-            var crumb = $("<div class='dir'></div>");
+            var crumb = $("<div class='dir'>");
             crumb.text(dir.getName());
             crumb.click(function() {
                 this.controller.chdir(dir);
