@@ -4,7 +4,7 @@
     function Controller(view) {
         this.view = view;
         this.library = new tapefm.Library();
-        this.player = new tapefm.Player();
+        this.player = new tapefm.Player(view);
 
         this.player.getRandomFile = function() {
             return this.library.getRandomFile().getFullPath();
@@ -34,17 +34,13 @@
 
         play: function(file) {
             this.player.play(file.getFullPath());
-            this.trigger("tapefm:songchange", file);
-            this.trigger("tapefm:unpause");
         },
 
         togglePause: function() {
             if(this.player.isPaused()) {
                 this.player.unpause();
-                this.trigger("tapefm:unpause");
             } else {
                 this.player.pause();
-                this.trigger("tapefm:pause");
             }
         },
 

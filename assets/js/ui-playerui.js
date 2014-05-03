@@ -9,7 +9,7 @@
     PlayerUI.prototype = {
         attach: function() {
             this.controller.on("tapefm:songchange", function(ev, song) {
-                this.setSong(song);
+                this.setPath(song);
             }.bind(this));
 
             this.controller.on("tapefm:pause", function(ev, song) {
@@ -29,8 +29,8 @@
             }.bind(this));
         },
         
-        setSong: function(song) {
-            $(".song", this.container).text(song.getFullPath());
+        setPath: function(path) {
+            $(".song", this.container).text(path);
         },
 
         pause: function() {

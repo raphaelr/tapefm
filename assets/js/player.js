@@ -1,7 +1,8 @@
 (function() {
     "use strict";
 
-    function Player() {
+    function Player(view) {
+        this.view = view;
         this.current = null;
         this.next = null;
     }
@@ -18,6 +19,7 @@
             var audio = new Audio();
             audio.preload = "none";
             audio.src = "/music" + path;
+            audio.path = path;
             $(audio).one("suspend", this.audioLoaded.bind(this, audio));
             return audio;
         },
@@ -29,8 +31,11 @@
                 console.log("player: Loading current", audio.src);
                 audio.load();
             }
+
             audio.play();
             this.current = audio;
+            this.view.trigger("tapefm:songchange", audio.path);
+            this.view.trigger("tapefm:unpause");
             console.log("player: Now playing", audio.src);
         },
 
@@ -88,12 +93,14 @@
         pause: function() {
             if(this.current) {
                 this.current.pause();
+                this.view.trigger("tapefm:pause");
             }
         },
 
         unpause: function() {
             if(this.current) {
                 this.current.play();
+                this.view.trigger("tapefm:unpause");
             }
         }
     };
