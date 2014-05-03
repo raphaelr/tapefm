@@ -4,9 +4,12 @@ $(function() {
     var view = $("#page");
     var controller = new tapefm.Controller(view);
 
+    // Controls
+    var breadcrumbs = new tapefm.Breadcrumbs($("header .path"), controller);
+
     view.on("tapefm:chdir", function(ev, dir) {
         loadEntriesIntoView(getSortedEntries(dir));
-        loadBreadcrumbs(dir);
+        breadcrumbs.render(dir);
     });
 
     function loadEntriesIntoView(entries) {
@@ -34,35 +37,6 @@ $(function() {
             return (a instanceof tapefm.File) - (b instanceof tapefm.File) ||
                 a.getName().localeCompare(b.getName());
         });
-    }
-
-    function loadBreadcrumbs(dir) {
-        getBreadcrumbContainer().empty();
-        addBreadcrumb(controller.library.getRoot()).addClass("glyphicon").addClass("glyphicon-music");
-        addBreadcrumbRecursive(dir);
-    }
-    
-    function getBreadcrumbContainer() {
-        return $("header .path");
-    }
-
-    function addBreadcrumb(dir) {
-        var crumb = $("<div class='dir'></div>");
-        crumb.text(dir.getName());
-        crumb.click(function() {
-            controller.chdir(dir);
-        });
-        getBreadcrumbContainer().append(crumb);
-        return crumb;
-    }
-
-    function addBreadcrumbRecursive(dir) {
-        if(dir.getParent()) {
-            addBreadcrumbRecursive(dir.getParent());
-        }
-        if(dir.getName()) {
-            addBreadcrumb(dir);
-        }
     }
 
     view.trigger("tapefm:ready");
