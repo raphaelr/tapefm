@@ -30,6 +30,7 @@
 
         play: function(file) {
             this.player.play(file.getFullPath());
+            this.trigger("tapefm:songchange", file);
         },
 
         getView: function() {
