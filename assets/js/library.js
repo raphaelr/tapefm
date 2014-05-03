@@ -43,7 +43,7 @@
 
         getFullPath: function() {
             var result = "";
-            if(this.parent) {
+            if(this.parent && this.parent.name) {
                 result += this.parent.getFullPath();
             }
             return result + "/" + (this.name || "");
