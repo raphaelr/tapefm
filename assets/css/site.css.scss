@@ -47,7 +47,8 @@ header {
         display: flex;
         margin-right: 14px;
         white-space: nowrap;
-        overflow: auto;
+        overflow-x: auto;
+        overflow-y: hidden;
 
         .dir {
             padding: 5px;
