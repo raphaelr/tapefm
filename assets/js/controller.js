@@ -31,6 +31,17 @@
         play: function(file) {
             this.player.play(file.getFullPath());
             this.trigger("tapefm:songchange", file);
+            this.trigger("tapefm:unpause");
+        },
+
+        togglePause: function() {
+            if(this.player.isPaused()) {
+                this.player.unpause();
+                this.trigger("tapefm:unpause");
+            } else {
+                this.player.pause();
+                this.trigger("tapefm:pause");
+            }
         },
 
         getView: function() {

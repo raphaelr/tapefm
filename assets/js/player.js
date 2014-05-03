@@ -17,9 +17,35 @@
         },
         
         makeCurrent: function(audio) {
+            this.removeCurrent();
             audio.play();
             this.current = audio;
         },
+
+        removeCurrent: function() {
+            if(this.current) {
+                this.current.pause();
+                this.current.src = "";
+                this.current.load();
+                this.current = null;
+            }
+        },
+
+        isPaused: function() {
+            return !this.current || this.current.paused;
+        },
+
+        pause: function() {
+            if(this.current) {
+                this.current.pause();
+            }
+        },
+
+        unpause: function() {
+            if(this.current) {
+                this.current.play();
+            }
+        }
     };
 
     tapefm.Player = Player;

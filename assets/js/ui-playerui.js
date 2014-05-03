@@ -11,10 +11,34 @@
             this.controller.on("tapefm:songchange", function(ev, song) {
                 this.setSong(song);
             }.bind(this));
+
+            this.controller.on("tapefm:pause", function(ev, song) {
+                this.pause();
+            }.bind(this));
+
+            this.controller.on("tapefm:unpause", function(ev, song) {
+                this.unpause();
+            }.bind(this));
+
+            $(".state", this.container).click(function() {
+                this.controller.togglePause();
+            }.bind(this));
         },
         
         setSong: function(song) {
             $(".song", this.container).text(song.getFullPath());
+        },
+
+        pause: function() {
+            this.getStateElement().removeClass("glyphicon-pause").addClass("glyphicon-play");
+        },
+
+        unpause: function() {
+            this.getStateElement().removeClass("glyphicon-play").addClass("glyphicon-pause");
+        },
+
+        getStateElement: function() {
+            return $(".state", this.container);
         }
     };
 
