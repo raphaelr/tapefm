@@ -19,7 +19,15 @@
 
         chdir: function(directory) {
             this.view.trigger("tapefm:chdir", directory);
-        }
+        },
+
+        getView: function() {
+            return this.view;
+        },
+
+        getLibrary: function() {
+            return this.library;
+        },
     };
 
     $.extend(tapefm, {
