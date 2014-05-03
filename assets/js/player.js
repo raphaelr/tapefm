@@ -26,7 +26,9 @@
         
         makeCurrent: function(audio) {
             this.removeCurrent();
+
             $(audio).on("ended", this.playNext.bind(this));
+
             if(audio.currentSrc === "") {
                 console.log("player: Loading current", audio.src);
                 audio.load();
