@@ -2,10 +2,10 @@
     :command: oggenc -Q -b 128 - -o -
     :mime: application/ogg
 :decoders:
-    mp3: lame --quiet --decode "$fn" -
-    flac: flac -d -c -s "$fn"
-    ogg: oggdec -Q "$fn" -o -
-    m4a: faad -wq "$fn"
+    :mp3: lame --quiet --decode "$fn" -
+    :flac: flac -d -c -s "$fn"
+    :ogg: oggdec -Q "$fn" -o -
+    :m4a: faad -wq "$fn"
 :library:
     :path: /srv/music/
     :glob: "**/*.{mp3,flac,ogg,m4a}"

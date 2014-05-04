@@ -29,7 +29,7 @@ class Transcoder
     private
     def get_transcode_command(fn)
         extension = File.extname(fn).slice(1..-1)
-        decoder_cmd = Config[:decoders][extension].gsub("$fn", fn)
+        decoder_cmd = Config[:decoders][extension.to_sym].gsub("$fn", fn)
         encoder_cmd = Config[:encoder][:command]
         "#{decoder_cmd} | #{encoder_cmd}"
     end
