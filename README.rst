@@ -61,7 +61,7 @@ Contains one entry per file extension to decode. The substring `$fn` is replaced
 
   :library:
     :path: /srv/music/
-    :glob: **/*.{mp3,flac}
+    :glob: **/*.{mp3,flac,ogg}
 
 **Explaination**:
 
