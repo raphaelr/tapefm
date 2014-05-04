@@ -5,7 +5,8 @@
     mp3: lame --quiet --decode "$fn" -
     flac: flac -d -c -s "$fn"
     ogg: oggdec -Q "$fn" -o -
+    m4a: faad -wq "$fn"
 :library:
     :path: /srv/music/
-    :glob: "**/*.{mp3,flac,ogg}"
+    :glob: "**/*.{mp3,flac,ogg,m4a}"
 
