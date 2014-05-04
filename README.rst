@@ -2,9 +2,17 @@
 tapeFM - Private music streaming service
 ========================================
 
-tapeFM is a *very* simple music streaming service you can run at your home server. Think Grooveshark or Spotify, but it uses your own music library. You're supposed to use your smartphone's browser as the client, if you are on a PC just use Winamp or Clementine or something.
+tapeFM is a *very* simple music streaming service you can run at your home server. Think Grooveshark
+or Spotify, but it uses your own music library. You're supposed to use your smartphone's browser as
+the client, if you are on a PC just use Winamp or Clementine or something.
 
-It's implemented with Ruby (on the server) and HTML+JavaScript (on the client), so it should run on any reasonably recent smartphone you can find. The requested songs are transcoded into 128 kbit/s OGG Vorbis by default, which should be fine for most network connections and browsers.
+It's implemented with Ruby (on the server) and HTML+JavaScript (on the client), so it should run on
+any reasonably recent smartphone you can find. The requested songs are transcoded into 128 kbit/s
+OGG Vorbis by default, which should be fine for most network connections and browsers.
+
+Due to Chrome issue `350645 <https://code.google.com/p/chromium/issues/detail?id=350645>`_, tapeFM
+will not play a next song if the current one ends. Sorry about that. You can use Firefox instead in
+the meantime.
 
 Client features
 ---------------
@@ -15,7 +23,8 @@ Client features
 
 Installation
 ------------
-Make sure you have `lame` (a MP3 decoder) and `oggenc` (an OGG encoder) installed. You may need additional decoders if your music library contains non-MP3 files.
+Make sure you have `lame` (a MP3 decoder) and `oggenc` (an OGG encoder) installed. You may need
+additional decoders if your music library contains non-MP3 files.
 
 Install ruby (with RVM or without, who cares) and the `bundler` gem.
 
@@ -40,7 +49,8 @@ Happens in the file `config.yml`.
 **Explaination:**
 
 `:command`
-  The command used to encode a music file to something the client can play (OGG Vorbis turns out to be the most portable format). It should read from `stdin` and write to `stdout`.
+  The command used to encode a music file to something the client can play (OGG Vorbis turns out to
+  be the most portable format). It should read from `stdin` and write to `stdout`.
 `:mime`
   The MIME type of the encoded data, so that the browser knows whats going on.
 
@@ -53,7 +63,8 @@ Happens in the file `config.yml`.
 
 **Explanation**:
 
-Contains one entry per file extension to decode. The substring `$fn` is replaced with the path of the file to decode, and the result should be written to `stdout`.
+Contains one entry per file extension to decode. The substring `$fn` is replaced with the path of
+the file to decode, and the result should be written to `stdout`.
 
 `:library` section
 ~~~~~~~~~~~~~~~~~~
@@ -66,9 +77,12 @@ Contains one entry per file extension to decode. The substring `$fn` is replaced
 **Explaination**:
 
 `:path`
-  The root directory of your music library. This is pretty much the only thing you need to customize.
+  The root directory of your music library. This is pretty much the only thing you need to
+  customize.
 `:glob`
-  Glob expression which is used to search for music files. The default is fine for most cases, unless you want to support WMA files or something, in which case you have to add additional file extensions inside the curly braces.
+  Glob expression which is used to search for music files. The default is fine for most cases,
+  unless you want to support WMA files or something, in which case you have to add additional file
+  extensions inside the curly braces.
 
 License
 -------
