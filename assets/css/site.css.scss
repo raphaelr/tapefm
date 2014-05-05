@@ -1,5 +1,4 @@
 @import "reset";
-@import "glyphicons";
 
 $header-bg: #ff9c00;
 $header-bg-alt: #ffc973;
@@ -72,6 +71,9 @@ footer {
 
     .state, .skip {
         flex: 0 0 auto;
+        letter-spacing: -5px;
+        width: 50px;
+        text-align: center;
     }
 
     .song {

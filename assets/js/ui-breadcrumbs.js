@@ -42,7 +42,7 @@
 
         styleBreadcrumb: function(crumb, dir) {
             if(!dir.getParent()) {
-                crumb.addClass("glyphicon glyphicon-music");
+                crumb.text("♬");
             }
         }
     };

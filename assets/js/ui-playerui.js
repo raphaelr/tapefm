@@ -34,11 +34,11 @@
         },
 
         pause: function() {
-            this.getStateElement().removeClass("glyphicon-pause").addClass("glyphicon-play");
+            this.getStateElement().text("▶");
         },
 
         unpause: function() {
-            this.getStateElement().removeClass("glyphicon-play").addClass("glyphicon-pause");
+            this.getStateElement().text("❚❚")
         },
 
         getStateElement: function() {
