@@ -38,6 +38,24 @@ Configuration
 -------------
 Happens in the file `config.yml`.
 
+`:library` section
+~~~~~~~~~~~~~~~~~~
+**Example**::
+
+  :library:
+    :path: /srv/music/
+    :glob: **/*.{mp3,flac,ogg}
+
+**Explaination**:
+
+`:path`
+  The root directory of your music library. This is pretty much the only thing you need to
+  customize.
+`:glob`
+  Glob expression which is used to search for music files. The default is fine for most cases,
+  unless you want to support WMA files or something, in which case you have to add additional file
+  extensions inside the curly braces.
+
 `:encoder` section
 ~~~~~~~~~~~~~~~~~~
 **Example**::
@@ -59,30 +77,12 @@ Happens in the file `config.yml`.
 **Example**::
 
   :decoders:
-    mp3: lame -d -c -s "$fn"
+    :mp3: lame -d -c -s "$fn"
 
 **Explanation**:
 
 Contains one entry per file extension to decode. The substring `$fn` is replaced with the path of
 the file to decode, and the result should be written to `stdout`.
-
-`:library` section
-~~~~~~~~~~~~~~~~~~
-**Example**::
-
-  :library:
-    :path: /srv/music/
-    :glob: **/*.{mp3,flac,ogg}
-
-**Explaination**:
-
-`:path`
-  The root directory of your music library. This is pretty much the only thing you need to
-  customize.
-`:glob`
-  Glob expression which is used to search for music files. The default is fine for most cases,
-  unless you want to support WMA files or something, in which case you have to add additional file
-  extensions inside the curly braces.
 
 License
 -------
