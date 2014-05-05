@@ -37,6 +37,14 @@
                 current = entries[Math.floor(Math.random() * entries.length)];
             }
             return current;
+        },
+
+        resolve: function(name) {
+            var head = this.root;
+            path.split(name).forEach(function(currentEntry) {
+                head = head ? head.getEntry(currentEntry) : null;
+            });
+            return head;
         }
     };
 
@@ -96,6 +104,9 @@
         },
 
         getEntry: function(name) {
+            if(name === "") {
+                return this;
+            }
             return this.entries[name];
         },
 
@@ -115,6 +126,9 @@
 
     var path = {
         split: function(name) {
+            if(name[0] === "/") {
+                name = name.slice(1);
+            }
             return name.split("/");
         },
         

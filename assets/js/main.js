@@ -8,6 +8,7 @@ $(function() {
     var breadcrumbs = new tapefm.Breadcrumbs($("header .path"), controller);
     var directoryListing = new tapefm.DirectoryListing($("article"), controller);
     var playerUi = new tapefm.PlayerUI($("footer"), controller);
+    var historyController = new tapefm.HistoryController(controller);
 
     controller.trigger("tapefm:ready");
 
