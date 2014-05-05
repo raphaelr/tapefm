@@ -103,6 +103,8 @@
             if(this.current) {
                 this.current.play();
                 this.view.trigger("tapefm:unpause");
+            } else {
+                this.playNext();
             }
         }
     };
