@@ -9,6 +9,7 @@ $(function() {
     var directoryListing = new tapefm.DirectoryListing($("article"), controller);
     var playerUi = new tapefm.PlayerUI($("footer"), controller);
     var historyController = new tapefm.HistoryController(controller);
+    var notificationControls = new tapefm.NotificationControls(controller);
 
     controller.trigger("tapefm:ready");
 
