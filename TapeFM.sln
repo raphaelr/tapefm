@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TapeFM.Server", "TapeFM.Server\TapeFM.Server.csproj", "{24A6C31C-9DCC-4D7E-960A-A9F658B6574E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TapeFM.Webapp", "TapeFM.Webapp\TapeFM.Webapp.csproj", "{820A41BF-82F0-4FAD-A9D8-320E293B60E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24A6C31C-9DCC-4D7E-960A-A9F658B6574E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A6C31C-9DCC-4D7E-960A-A9F658B6574E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A6C31C-9DCC-4D7E-960A-A9F658B6574E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A6C31C-9DCC-4D7E-960A-A9F658B6574E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{820A41BF-82F0-4FAD-A9D8-320E293B60E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{820A41BF-82F0-4FAD-A9D8-320E293B60E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{820A41BF-82F0-4FAD-A9D8-320E293B60E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{820A41BF-82F0-4FAD-A9D8-320E293B60E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

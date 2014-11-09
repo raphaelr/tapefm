@@ -6,83 +6,60 @@ tapeFM is a *very* simple music streaming service you can run at your home serve
 or Spotify, but it uses your own music library. You're supposed to use your smartphone's browser as
 the client, if you are on a PC just use Winamp or Clementine or something.
 
-It's implemented with Ruby (on the server) and HTML+JavaScript (on the client), so it should run on
-any reasonably recent smartphone you can find. The requested songs are transcoded into 128 kbit/s
-OGG Vorbis by default, which should be fine for most network connections and browsers.
+It's implemented with ASP.NET WebApi (on the server) and HTML+JavaScript (on the client), so it
+should run on any reasonably recent smartphone you can find. The requested songs are transcoded
+into (currently nonconfigurable; but that's coming soon) 533 kbit/s OGG Opus by default, which
+should be fine for some network connections and browsers.
 
-Due to Chrome issue `350645 <https://code.google.com/p/chromium/issues/detail?id=350645>`_, tapeFM
-will not play a next song if the current one ends. Sorry about that. You can use Firefox instead in
-the meantime.
+Currently *very much* in development. If you are a web designer, please don't hurt me. There is a
+more stable version on the `v1.0` branch.
 
 Client features
 ---------------
 * Pick a specific song to listen to
 * If you don't do that, it will keep playing randomly picked songs from your library
-* Skip a song
-* Pause/Resume playback
+
+Coming soon features
+--------------------
+* Skipping a song
+* Pausing/Resuming playback
+
+Coming maybe soon but probably not in the most closest future
+-------------------------------------------------------------
+* Playlist support
+* Adapting the streaming bitrate to the network connection of the client (e.g. when switching
+  from an HSDPA to an EDGE signal)
+* Scrobbling to last.fm
 
 Installation
 ------------
-Make sure you have `lame` (a MP3 decoder) and `oggenc` (an OGG encoder) installed. You may need
-additional decoders if your music library contains non-MP3 files.
+Make sure you have `ffmpeg` (to decode your music) and `opus` (to encode it again) installed.
+You will also need to have `redis` installed and running.  Use `nuget update TapeFM.sln` to
+install the required dependencies.
 
-Install ruby (with RVM or without, who cares) and the `bundler` gem.
+Finally change the path to your music library in `TapeFM.Server/tapefm.config`.
 
-Clone to some directory. Change the library path in `config.yml`. Run `bundle install`. Done.
+A word on mono
+--------------
+If you intend to run TapeFM on mono, you may run into a Redis-related problem.
+The StackExchange.Redis library may not be able to connect to the server, even if it's running on
+localhost. In this case you may have to build StackExchange.Redis yourself and use your self-built
+.dll in place of the nuget provided one. See [this StackOverflow question](https://stackoverflow.com/q/23871110)
+for details.
 
 Running
 -------
-Just execute `rackup`. Get fancy with systemd at your own discretion.
+Run `..\packages\OwinHost.3.0.0\tools\OwinHost.exe` inside the TapeFM.Server directory. It will
+only listen on localhost by default, so you probably want to use the `-u` argument to specify
+the URL to listen on. For example, `-u http://*:5000` will listen on all addresses on port 5000.
 
-Configuration
--------------
-Happens in the file `config.yml`.
+Also be sure to make this accessible from your VPN only because there is no authentication.
 
-`:library` section
-~~~~~~~~~~~~~~~~~~
-**Example**::
-
-  :library:
-    :path: /srv/music/
-    :glob: **/*.{mp3,flac,ogg}
-
-**Explaination**:
-
-`:path`
-  The root directory of your music library. This is pretty much the only thing you need to
-  customize.
-`:glob`
-  Glob expression which is used to search for music files. The default is fine for most cases,
-  unless you want to support WMA files or something, in which case you have to add additional file
-  extensions inside the curly braces.
-
-`:encoder` section
-~~~~~~~~~~~~~~~~~~
-**Example**::
-
-  :encoder:
-    :command: oggenc -Q -b 128 - -o -
-    :mime: application/ogg
-
-**Explaination:**
-
-`:command`
-  The command used to encode a music file to something the client can play (OGG Vorbis turns out to
-  be the most portable format). It should read from `stdin` and write to `stdout`.
-`:mime`
-  The MIME type of the encoded data, so that the browser knows whats going on.
-
-`:decoders` section
-~~~~~~~~~~~~~~~~~~~
-**Example**::
-
-  :decoders:
-    :mp3: lame -d -c -s "$fn"
-
-**Explanation**:
-
-Contains one entry per file extension to decode. The substring `$fn` is replaced with the path of
-the file to decode, and the result should be written to `stdout`.
+Listening
+---------
+You can either click on the speaker icon in the bottom-right corner of the web page, or you can
+connect with any media player that supports the Opus codec by opening the URL
+`http://your.host.example/listen`.
 
 License
 -------
@@ -107,3 +84,4 @@ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVI
 DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
 IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
