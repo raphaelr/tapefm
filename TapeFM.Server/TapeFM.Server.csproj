@@ -129,7 +129,6 @@
     <Compile Include="Code\ApplicationCache.cs" />
     <Compile Include="Code\BetterRandomNumberGenerator.cs" />
     <Compile Include="Code\ICacheEntry.cs" />
-    <Compile Include="Code\RouteHelpers.cs" />
     <Compile Include="Code\Startup.cs" />
     <Compile Include="Code\StreamServer\BufferHelper.cs" />
     <Compile Include="Code\StreamServer\Decoder.cs" />
@@ -188,7 +187,7 @@
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
           <servers defaultServer="OwinHost">
-            <server name="OwinHost" exePath="{solutiondir}\packages\OwinHost.3.0.0\tools\OwinHost.exe" cmdArgs="-u {url}" url="http://localhost:30000/" workingDir="{projectdir}" />
+            <server name="OwinHost" exePath="{solutiondir}\packages\OwinHost.3.0.0\tools\OwinHost.exe" cmdArgs="-u {url}" url="http://192.168.0.3:30000/" workingDir="{projectdir}" />
           </servers>
         </WebProjectProperties>
       </FlavorProperties>

@@ -1,9 +1,14 @@
-﻿.page.library {
+﻿$bg-header-footer-outer: #B25D06;
+$bg-header-footer-inner: #FFA03F;
+$bg-entry-song: #3BD0FF;
+$bg-entry-directory: #178DB2;
+
+.page.library {
     display: flex;
     flex-direction: column;
 
     .pathbar {
-        background-color: #2EFF57;
+        background-color: $bg-header-footer-inner;
         font-size: 30px;
         line-height: 36px;
 
@@ -20,24 +25,36 @@
 
     .entries {
         flex: 1 1 auto;
+		overflow: auto;
     }
+
+	.entry {
+		background-color: $bg-entry-song;
+		margin-bottom: 2px;
+	}
 
     .controls {
         display: flex;
 
         .toggle-pause {
             flex: 0 0 auto;
-            letter-spacing: -5px;
-            width: 1em;
+			padding: 0 10px 0 10px;
             text-align: center;
+			background-color: $bg-header-footer-outer;
         }
 
         .current-song {
             flex: 1 1 auto;
+			overflow-x: auto;
+			overflow-y: hidden;
+			white-space: nowrap;
+			background-color: $bg-header-footer-inner;
         }
 
         .skip, .toggle-listen {
             flex: 0 0 auto;
+            text-align: center;
+			background-color: $bg-header-footer-outer;
         }
     }
 }
