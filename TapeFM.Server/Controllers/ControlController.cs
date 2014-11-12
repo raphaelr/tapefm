@@ -32,6 +32,12 @@ namespace TapeFM.Server.Controllers
             GetStation().Skip();
         }
 
+        [HttpPost, Route("pause")]
+        public void SetPaused(bool paused)
+        {
+            GetStation().IsPaused = paused;
+        }
+
         private RadioStation GetStation()
         {
             return RadioStationManager.GetDefault();

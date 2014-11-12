@@ -20,7 +20,7 @@
         self.currentSong = ko.observable();
 
         self.pauseStatus = ko.computed(function() {
-            return isPaused() ? "❚❚" : "▶";
+            return isPaused() ? "▶" : "❚❚";
         });
 
         self.listenStatus = ko.computed(function () {
@@ -29,6 +29,7 @@
 
         self.togglePause = function() {
             isPaused(!isPaused());
+            $.post("/api/control/pause?paused=" + isPaused());
         };
 
         self.skip = function() {

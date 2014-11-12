@@ -20,7 +20,7 @@ namespace TapeFM.Server.Code.StreamServer
             return true;
         }
 
-        private static void ZeroBuffer(byte[] buffer, int offset)
+        public static void ZeroBuffer(byte[] buffer, int offset)
         {
             for (var i = offset; i < buffer.Length; i++)
             {

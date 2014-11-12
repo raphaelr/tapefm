@@ -25,15 +25,6 @@ namespace TapeFM.Server.Code.StreamServer
             remove { _streamer.TooLongIdle -= value; }
         }
 
-        public RadioStation(string key)
-        {
-            Key = key;
-            Playlist = new Playlist();
-            _source = new RadioStationSource(Playlist);
-            _streamer = new RadioStationStreamer(_source);
-            _thread = new Thread(_streamer.Run);
-        }
-
         public string CurrentSource
         {
             get { return _source.CurrentSource; }
@@ -43,6 +34,21 @@ namespace TapeFM.Server.Code.StreamServer
         {
             get { return _streamer.BitrateKbps; }
             set { _streamer.BitrateKbps = value; }
+        }
+
+        public bool IsPaused
+        {
+            get { return _source.IsPaused; }
+            set { _source.IsPaused = value; }
+        }
+
+        public RadioStation(string key)
+        {
+            Key = key;
+            Playlist = new Playlist();
+            _source = new RadioStationSource(Playlist);
+            _streamer = new RadioStationStreamer(_source);
+            _thread = new Thread(_streamer.Run);
         }
 
         public void Skip()

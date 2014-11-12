@@ -13,6 +13,7 @@ namespace TapeFM.Server.Code.StreamServer
         public event EventHandler<string> CurrentSourceChanged;
 
         public string CurrentSource { get; private set; }
+        public bool IsPaused { get; set; }
 
         public RadioStationSource(Playlist playlist)
         {
@@ -26,13 +27,25 @@ namespace TapeFM.Server.Code.StreamServer
         {
             lock (_syncRoot)
             {
-                EnsureStream();
-
-                var result = _decoder.Stream.ReadFull(sourceBuffer);
-                if(!result)
+                if (IsPaused)
                 {
-                    _isEof = true;
+                    BufferHelper.ZeroBuffer(sourceBuffer, 0);
                 }
+                else
+                {
+                    FillBufferFromStream(sourceBuffer);
+                }
+            }
+        }
+
+        private void FillBufferFromStream(byte[] sourceBuffer)
+        {
+            EnsureStream();
+
+            var result = _decoder.Stream.ReadFull(sourceBuffer);
+            if (!result)
+            {
+                _isEof = true;
             }
         }
 
