@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
+using TapeFM.Server.Controllers;
 
 namespace TapeFM.Server.Code.StreamServer
 {
     public static class RadioStationManager
     {
-        private static readonly TimeSpan IdleTimeToLive = TimeSpan.FromHours(1);
         private static readonly ConcurrentDictionary<string, RadioStation> Stations;
 
         static RadioStationManager()
@@ -14,25 +13,12 @@ namespace TapeFM.Server.Code.StreamServer
             Stations = new ConcurrentDictionary<string, RadioStation>();
         }
 
-        public static string CreateNewStation(string key = null)
-        {
-            if (string.IsNullOrEmpty(key))
-            {
-                key = Guid.NewGuid().ToString("N");
-            }
-
-            var station = new RadioStation();
-            station.Start();
-            Stations[key] = station;
-            return key;
-        }
-
         public static RadioStation GetStation(string key)
         {
             RadioStation station = null;
             if (!string.IsNullOrEmpty(key))
             {
-                Stations.TryGetValue(key, out station);
+                station = Stations.GetOrAdd(key, CreateNewStation);
             }
             return station;
         }
@@ -42,15 +28,29 @@ namespace TapeFM.Server.Code.StreamServer
             return GetStation("default");
         }
 
-        public static void ReapDeadStations()
+        private static RadioStation CreateNewStation(string key)
         {
-            var dead = Stations.ToArray()
-                .Where(s => s.Value.LastPublish < DateTime.Now.Subtract(IdleTimeToLive));
-            foreach (var station in dead)
+            if (string.IsNullOrEmpty(key))
             {
-                station.Value.Stop();
-                RadioStation value;
-                Stations.TryRemove(station.Key, out value);
+                key = Guid.NewGuid().ToString("N");
+            }
+
+            var station = new RadioStation(key);
+            station.TooLongIdle += (_, __) => RemoveStation(station);
+            station.CurrentSourceChanged += Trackservice.Publish;
+            station.Start();
+            return station;
+        }
+
+        private static void RemoveStation(RadioStation station)
+        {
+            if (station != null)
+            {
+                RadioStation tmp;
+                if (Stations.TryRemove(station.Key, out tmp))
+                {
+                    station.Stop();
+                }
             }
         }
     }

@@ -10,6 +10,7 @@ namespace TapeFM.Server.Code.StreamServer
         private readonly RadioStationStreamer _streamer;
         private readonly Thread _thread;
 
+        public string Key { get; private set; }
         public Playlist Playlist { get; private set; }
 
         public event EventHandler<string> CurrentSourceChanged
@@ -18,8 +19,15 @@ namespace TapeFM.Server.Code.StreamServer
             remove { _source.CurrentSourceChanged -= value; }
         }
 
-        public RadioStation()
+        public event EventHandler TooLongIdle
         {
+            add { _streamer.TooLongIdle += value; }
+            remove { _streamer.TooLongIdle -= value; }
+        }
+
+        public RadioStation(string key)
+        {
+            Key = key;
             Playlist = new Playlist();
             _source = new RadioStationSource(Playlist);
             _streamer = new RadioStationStreamer(_source);
@@ -29,11 +37,6 @@ namespace TapeFM.Server.Code.StreamServer
         public string CurrentSource
         {
             get { return _source.CurrentSource; }
-        }
-
-        public DateTime LastPublish
-        {
-            get { return _streamer.LastPublish; }
         }
 
         public int BitrateKbps
@@ -55,10 +58,6 @@ namespace TapeFM.Server.Code.StreamServer
         public void Stop()
         {
             _streamer.Stop();
-            if (!_thread.Join(TimeSpan.FromSeconds(5)))
-            {
-                _thread.Abort();
-            }
         }
 
         public delegate bool DataAvailableCallback(byte[] frame, int length, int sampleSize);

@@ -20,8 +20,6 @@ namespace TapeFM.Server.Code
             app.UseWebApi(CreateWebApiConfig());
 
             TapeFmConfig.Load();
-            RadioStationManager.CreateNewStation("default");
-            RadioStationManager.GetDefault().CurrentSourceChanged += Trackservice.Publish;
         }
 
         private static HttpConfiguration CreateWebApiConfig()

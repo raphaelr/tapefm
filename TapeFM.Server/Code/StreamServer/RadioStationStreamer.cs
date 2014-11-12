@@ -6,6 +6,8 @@ namespace TapeFM.Server.Code.StreamServer
 {
     public class RadioStationStreamer
     {
+        private static readonly TimeSpan IdleTimeToLive = TimeSpan.FromMinutes(5);
+
         private const int NumChannels = 2;
         private const int SampleRate = 48000;
         private const int FrameDurationMs = 60;
@@ -23,25 +25,8 @@ namespace TapeFM.Server.Code.StreamServer
 
         public delegate void FrameEncodedCallback(byte[] frame, int length, int sampleLength);
 
+        public event EventHandler TooLongIdle;
         public event FrameEncodedCallback FrameEncoded;
-
-        public DateTime LastPublish
-        {
-            get
-            {
-                lock (_syncRoot)
-                {
-                    return _lastPublish;
-                }
-            }
-            private set
-            {
-                lock (_syncRoot)
-                {
-                    _lastPublish = value;
-                }
-            }
-        }
 
         public int BitrateKbps
         {
@@ -122,7 +107,20 @@ namespace TapeFM.Server.Code.StreamServer
             if (handler != null)
             {
                 handler(_encodedBuffer, _encodedBytes, FrameSize/NumChannels);
-                LastPublish = DateTime.Now;
+                _lastPublish = DateTime.Now;
+            }
+            else
+            {
+                CheckWhetherToDie();
+            }
+        }
+
+        private void CheckWhetherToDie()
+        {
+            if (_lastPublish + IdleTimeToLive < DateTime.Now)
+            {
+                var handler = TooLongIdle;
+                if (handler != null) handler(this, EventArgs.Empty);
             }
         }
     }
