@@ -38,6 +38,8 @@ namespace TapeFM.Server.Code
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new {id = RouteParameter.Optional}
                 );
+
+            config.EnsureInitialized();
             return config;
         }
     }

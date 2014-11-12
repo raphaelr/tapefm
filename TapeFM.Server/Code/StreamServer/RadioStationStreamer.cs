@@ -43,6 +43,12 @@ namespace TapeFM.Server.Code.StreamServer
             }
         }
 
+        public int BitrateKbps
+        {
+            get { return _encoder.BitrateKbps; }
+            set { _encoder.BitrateKbps = value; }
+        }
+
         public RadioStationStreamer(RadioStationSource source)
         {
             _pcmBuffer = new byte[FrameSize*2];

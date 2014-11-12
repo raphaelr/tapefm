@@ -13,7 +13,8 @@ namespace TapeFM.Server.Controllers
             return new Status
             {
                 CurrentTrack = (station.CurrentSource ?? "").Replace(TapeFmConfig.LibraryDirectory, ""),
-                IsPaused = false
+                IsPaused = false,
+                BitrateKbps = station.BitrateKbps
             };
         }
     }

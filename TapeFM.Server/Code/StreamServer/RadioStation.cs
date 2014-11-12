@@ -31,6 +31,17 @@ namespace TapeFM.Server.Code.StreamServer
             get { return _source.CurrentSource; }
         }
 
+        public DateTime LastPublish
+        {
+            get { return _streamer.LastPublish; }
+        }
+
+        public int BitrateKbps
+        {
+            get { return _streamer.BitrateKbps; }
+            set { _streamer.BitrateKbps = value; }
+        }
+
         public void Skip()
         {
             _source.Skip();
@@ -79,11 +90,6 @@ namespace TapeFM.Server.Code.StreamServer
             {
                 _streamer.FrameEncoded -= handler;
             }
-        }
-
-        public DateTime LastPublish
-        {
-            get { return _streamer.LastPublish; }
         }
     }
 }

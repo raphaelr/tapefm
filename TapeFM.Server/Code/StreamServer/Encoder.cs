@@ -9,16 +9,32 @@ namespace TapeFM.Server.Code.StreamServer
 
         private readonly int _numChannels;
         private IntPtr _encoder;
+        private int _bitrateKbps;
+
+        public int BitrateKbps
+        {
+            get { return _bitrateKbps; }
+            set
+            {
+                if (_bitrateKbps != value)
+                {
+                    _bitrateKbps = value;
+                    NativeOpus.opus_encoder_ctl_bitrate(_encoder, NativeOpus.CtlBitrate, value * 1024);
+                }
+            }
+        }
 
         public Encoder(int samplingRate, int channels, OpusApplication application)
         {
             _numChannels = channels;
             int error;
+            
             _encoder = NativeOpus.opus_encoder_create(samplingRate, channels, (int)application, out error);
             if (error != 0)
             {
                 throw new Exception("Opus error: " + error);
             }
+            BitrateKbps = 300;
         }
 
         public int Encode(byte[] pcm, byte[] output)
