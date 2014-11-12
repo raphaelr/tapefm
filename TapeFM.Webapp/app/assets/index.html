@@ -52,6 +52,15 @@
                 <span data-bind="text: bitrate"></span> kbps
             </div>
 
+            <div class="setting">
+                <span>Play on empty playlist:</span>
+                <select data-bind="value: emptyPlaylistMode">
+                    <option value="RandomMix">A random song</option>
+                    <option value="RepeatLast">The last song</option>
+                    <option value="Silence">Silence</option>
+                </select>
+            </div>
+
             <div style="height: 70px"></div>
             <div class="setting">
                 <input type="button" data-bind="click: rescanLibrary" value="Rescan Library">
