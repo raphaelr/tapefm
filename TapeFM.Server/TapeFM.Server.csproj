@@ -154,6 +154,7 @@
     <Compile Include="Controllers\Trackservice.cs" />
     <Compile Include="Models\Dao\RadioStationConfigurationDao.cs" />
     <Compile Include="Models\Dao\SongDao.cs" />
+    <Compile Include="Models\EmptyPlaylistMode.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\RadioStationConfiguration.cs" />
     <Compile Include="Models\Song.cs" />

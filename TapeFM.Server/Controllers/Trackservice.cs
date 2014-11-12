@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.SignalR;
-using TapeFM.Server.Code;
 
 namespace TapeFM.Server.Controllers
 {
@@ -7,7 +6,7 @@ namespace TapeFM.Server.Controllers
     {
         public static void Publish(object sender, string track)
         {
-            track = (track ?? "").Replace(TapeFmConfig.LibraryDirectory, "");
+            track = track ?? "Dead Air";
             GlobalHost.ConnectionManager.GetHubContext<Trackservice>()
                 .Clients.All.setCurrentTrack(track);
         }

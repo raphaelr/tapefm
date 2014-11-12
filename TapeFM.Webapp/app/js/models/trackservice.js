@@ -11,7 +11,7 @@
     }
 
     function publishTrack(track) {
-        config.trackChanged(track);
+        config.trackChanged(track || "Dead Air");
     }
 
     init();

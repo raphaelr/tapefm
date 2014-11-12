@@ -26,16 +26,22 @@ namespace TapeFM.Server.Controllers
             return BadRequest("Invalid bitrate");
         }
 
-        [HttpPost, Route("skip")]
-        public void Skip()
-        {
-            GetStation().Skip();
-        }
-
         [HttpPost, Route("pause")]
         public void SetPaused(bool paused)
         {
             GetStation().IsPaused = paused;
+        }
+
+        [HttpPost, Route("empty_playlist_mode")]
+        public void SetEmptyPlaylistMode(EmptyPlaylistMode mode)
+        {
+            GetStation().EmptyPlaylistMode = mode;
+        }
+
+        [HttpPost, Route("skip")]
+        public void Skip()
+        {
+            GetStation().Skip();
         }
 
         private RadioStation GetStation()

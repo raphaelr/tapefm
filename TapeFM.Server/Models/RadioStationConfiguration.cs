@@ -7,5 +7,7 @@ namespace TapeFM.Server.Models
     {
         [DataMember]
         public int BitrateKbps { get; set; }
+        [DataMember]
+        public EmptyPlaylistMode EmptyPlaylistMode { get; set; }
     }
 }

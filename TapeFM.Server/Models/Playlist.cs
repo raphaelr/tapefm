@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using TapeFM.Server.Code;
 using TapeFM.Server.Models.Dao;
@@ -11,6 +12,26 @@ namespace TapeFM.Server.Models
         private readonly ConcurrentQueue<string> _queue;
         private readonly BetterRandomNumberGenerator _rng;
         private string _nextOverride;
+        private string _previous;
+        private EmptyPlaylistMode _emptyPlaylistMode;
+
+        public EmptyPlaylistMode EmptyPlaylistMode
+        {
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return _emptyPlaylistMode;
+                }
+            }
+            set
+            {
+                lock (_syncRoot)
+                {
+                    _emptyPlaylistMode = value;
+                }
+            }
+        }
 
         public Playlist()
         {
@@ -32,11 +53,35 @@ namespace TapeFM.Server.Models
 
             if (result == null && !_queue.TryDequeue(out result))
             {
-                var songs = SongDao.GetAll();
-                var next = songs[_rng.Next(songs.Count)];
-                result = next.Path;
+                return DefaultPlaylistEntry();
             }
-            return Path.Combine(TapeFmConfig.LibraryDirectory, result);
+            
+            _previous = result;
+            return result;
+        }
+
+        private string DefaultPlaylistEntry()
+        {
+            switch (EmptyPlaylistMode)
+            {
+                case EmptyPlaylistMode.Silence:
+                    return null;
+                case EmptyPlaylistMode.RepeatLast:
+                    if (string.IsNullOrEmpty(_previous))
+                    {
+                        _previous = GetRandomSong();
+                    }
+                    return _previous;
+                default:
+                    return GetRandomSong();
+            }
+        }
+
+        private string GetRandomSong()
+        {
+            var songs = SongDao.GetAll();
+            var next = songs[_rng.Next(songs.Count)];
+            return next.Path;
         }
 
         public void OverrideNext(string song)

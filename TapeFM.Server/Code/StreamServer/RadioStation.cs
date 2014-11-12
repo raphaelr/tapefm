@@ -47,6 +47,19 @@ namespace TapeFM.Server.Code.StreamServer
             }
         }
 
+        public EmptyPlaylistMode EmptyPlaylistMode
+        {
+            get { return Playlist.EmptyPlaylistMode; }
+            set
+            {
+                if (Playlist.EmptyPlaylistMode != value)
+                {
+                    Playlist.EmptyPlaylistMode = value;
+                    SaveConfiguration();
+                }
+            }
+        }
+
         public bool IsPaused
         {
             get { return _source.IsPaused; }
@@ -85,6 +98,7 @@ namespace TapeFM.Server.Code.StreamServer
             if (config != null)
             {
                 BitrateKbps = config.BitrateKbps;
+                EmptyPlaylistMode = config.EmptyPlaylistMode;
             }
             _enableConfigurationSaving = true;
         }
@@ -95,7 +109,8 @@ namespace TapeFM.Server.Code.StreamServer
             {
                 var config = new RadioStationConfiguration
                 {
-                    BitrateKbps = BitrateKbps
+                    BitrateKbps = BitrateKbps,
+                    EmptyPlaylistMode = EmptyPlaylistMode
                 };
                 RadioStationConfigurationDao.Save(Key, config);
             }

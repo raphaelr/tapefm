@@ -2,10 +2,9 @@
 using Microsoft.Owin;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Owin;
-using TapeFM.Server.Code.StreamServer;
-using TapeFM.Server.Controllers;
 
 [assembly: OwinStartup(typeof(TapeFM.Server.Code.Startup))]
 
@@ -28,6 +27,7 @@ namespace TapeFM.Server.Code
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
                 new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter());
 
             config.MapHttpAttributeRoutes();
 

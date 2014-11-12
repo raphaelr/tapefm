@@ -8,7 +8,7 @@ namespace TapeFM.Server.Code.StreamServer
         private readonly object _syncRoot;
         private readonly Decoder _decoder;
         private readonly Playlist _playlist;
-        private bool _isEof;
+        private bool _isEof, _isSilence;
 
         public event EventHandler<string> CurrentSourceChanged;
 
@@ -27,7 +27,8 @@ namespace TapeFM.Server.Code.StreamServer
         {
             lock (_syncRoot)
             {
-                if (IsPaused)
+                EnsureStream();
+                if (IsPaused || _isSilence)
                 {
                     BufferHelper.ZeroBuffer(sourceBuffer, 0);
                 }
@@ -40,8 +41,6 @@ namespace TapeFM.Server.Code.StreamServer
 
         private void FillBufferFromStream(byte[] sourceBuffer)
         {
-            EnsureStream();
-
             var result = _decoder.Stream.ReadFull(sourceBuffer);
             if (!result)
             {
@@ -54,6 +53,7 @@ namespace TapeFM.Server.Code.StreamServer
             lock (_syncRoot)
             {
                 _decoder.Stop();
+                _isSilence = false;
                 _isEof = true;
             }
         }
@@ -63,9 +63,14 @@ namespace TapeFM.Server.Code.StreamServer
             if (_isEof)
             {
                 var next = _playlist.Next();
-                _decoder.Decode(next);
                 _isEof = false;
                 OnCurrentSourceChanged(next);
+
+                _isSilence = next == null;
+                if (next != null)
+                {
+                    _decoder.Decode(next);
+                }
             }
         }
 

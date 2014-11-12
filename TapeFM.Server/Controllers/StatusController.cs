@@ -12,9 +12,10 @@ namespace TapeFM.Server.Controllers
             var station = RadioStationManager.GetDefault();
             return new Status
             {
-                CurrentTrack = (station.CurrentSource ?? "").Replace(TapeFmConfig.LibraryDirectory, ""),
+                CurrentTrack = string.IsNullOrEmpty(station.CurrentSource) ? null : station.CurrentSource,
                 IsPaused = false,
-                BitrateKbps = station.BitrateKbps
+                BitrateKbps = station.BitrateKbps,
+                EmptyPlaylistMode = station.EmptyPlaylistMode
             };
         }
     }

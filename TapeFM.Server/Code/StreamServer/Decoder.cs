@@ -13,6 +13,7 @@ namespace TapeFM.Server.Code.StreamServer
         {
             Stream = null;
 
+            filename = Path.Combine(TapeFmConfig.LibraryDirectory, filename);
             filename = Path.GetFullPath(filename);
             if (!File.Exists(filename) || filename.Contains("\""))
             {
