@@ -72,7 +72,10 @@ namespace TapeFM.Server.Code.StreamServer
             Playlist = new Playlist();
             _source = new RadioStationSource(Playlist);
             _streamer = new RadioStationStreamer(_source);
-            _thread = new Thread(_streamer.Run);
+            _thread = new Thread(_streamer.Run)
+            {
+                IsBackground = true
+            };
 
             LoadConfiguration();
         }
