@@ -40,7 +40,7 @@ A word on mono
 If you intend to run TapeFM on mono, you may run into a Redis-related problem.
 The StackExchange.Redis library may not be able to connect to the server, even if it's running on
 localhost. In this case you may have to build StackExchange.Redis yourself and use your self-built
-.dll in place of the nuget provided one. See [this StackOverflow question](https://stackoverflow.com/q/23871110)
+.dll in place of the nuget provided one. See `this StackOverflow question <https://stackoverflow.com/q/23871110>`_
 for details.
 
 Running
