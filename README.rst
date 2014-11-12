@@ -8,8 +8,7 @@ the client, if you are on a PC just use Winamp or Clementine or something.
 
 It's implemented with ASP.NET WebApi (on the server) and HTML+JavaScript (on the client), so it
 should run on any reasonably recent smartphone you can find. The requested songs are transcoded
-into (currently nonconfigurable; but that's coming soon) 533 kbit/s OGG Opus by default, which
-should be fine for some network connections and browsers.
+into OGG Opus, and you can adjust the bitrate depending on your needs and network connection.
 
 Currently *very much* in development. If you are a web designer, please don't hurt me. There is a
 more stable version on the `v1.0` branch.
@@ -18,11 +17,8 @@ Client features
 ---------------
 * Pick a specific song to listen to
 * If you don't do that, it will keep playing randomly picked songs from your library
-
-Coming soon features
---------------------
-* Skipping a song
-* Pausing/Resuming playback
+* Or play silence depending on what you pick in the options menu
+* Live-adjusting the bitrate
 
 Coming maybe soon but probably not in the most closest future
 -------------------------------------------------------------
