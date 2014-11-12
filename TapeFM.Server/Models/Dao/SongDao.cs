@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using TapeFM.Server.Code;
@@ -11,7 +10,7 @@ namespace TapeFM.Server.Models.Dao
     {
         private static readonly string[] ValidExtensions = {".mp3", ".m4a", ".flac", ".ogg"};
         private static readonly ICacheEntry<List<Song>> CachedAllSongs =
-            ApplicationCache.CreateEntry("songs_all", GetAllUncached);
+            Database.CreateEntry(Database.CacheKeySongs, GetAllUncached);
 
         public static List<Song> GetAll()
         {

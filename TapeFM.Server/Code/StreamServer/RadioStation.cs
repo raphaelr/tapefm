@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Threading;
 using TapeFM.Server.Models;
+using TapeFM.Server.Models.Dao;
 
 namespace TapeFM.Server.Code.StreamServer
 {
     public class RadioStation
     {
+        public delegate bool DataAvailableCallback(byte[] frame, int length, int sampleSize);
+
         private readonly RadioStationSource _source;
         private readonly RadioStationStreamer _streamer;
         private readonly Thread _thread;
+        private bool _enableConfigurationSaving;
 
         public string Key { get; private set; }
         public Playlist Playlist { get; private set; }
@@ -33,7 +37,14 @@ namespace TapeFM.Server.Code.StreamServer
         public int BitrateKbps
         {
             get { return _streamer.BitrateKbps; }
-            set { _streamer.BitrateKbps = value; }
+            set
+            {
+                if (_streamer.BitrateKbps != value)
+                {
+                    _streamer.BitrateKbps = value;
+                    SaveConfiguration();
+                }
+            }
         }
 
         public bool IsPaused
@@ -49,6 +60,8 @@ namespace TapeFM.Server.Code.StreamServer
             _source = new RadioStationSource(Playlist);
             _streamer = new RadioStationStreamer(_source);
             _thread = new Thread(_streamer.Run);
+
+            LoadConfiguration();
         }
 
         public void Skip()
@@ -66,7 +79,28 @@ namespace TapeFM.Server.Code.StreamServer
             _streamer.Stop();
         }
 
-        public delegate bool DataAvailableCallback(byte[] frame, int length, int sampleSize);
+        private void LoadConfiguration()
+        {
+            var config = RadioStationConfigurationDao.Get(Key);
+            if (config != null)
+            {
+                BitrateKbps = config.BitrateKbps;
+            }
+            _enableConfigurationSaving = true;
+        }
+
+        private void SaveConfiguration()
+        {
+            if (_enableConfigurationSaving)
+            {
+                var config = new RadioStationConfiguration
+                {
+                    BitrateKbps = BitrateKbps
+                };
+                RadioStationConfigurationDao.Save(Key, config);
+            }
+        }
+
         public void Subscribe(DataAvailableCallback callback)
         {
             var signal = new ManualResetEventSlim();

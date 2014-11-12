@@ -126,7 +126,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\ApplicationCache.cs" />
+    <Compile Include="Code\Database.cs" />
     <Compile Include="Code\BetterRandomNumberGenerator.cs" />
     <Compile Include="Code\ICacheEntry.cs" />
     <Compile Include="Code\Startup.cs" />
@@ -152,8 +152,10 @@
     <Compile Include="Controllers\SongsController.cs" />
     <Compile Include="Controllers\StreamServer\ListenStreamController.cs" />
     <Compile Include="Controllers\Trackservice.cs" />
+    <Compile Include="Models\Dao\RadioStationConfigurationDao.cs" />
     <Compile Include="Models\Dao\SongDao.cs" />
     <Compile Include="Models\Playlist.cs" />
+    <Compile Include="Models\RadioStationConfiguration.cs" />
     <Compile Include="Models\Song.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

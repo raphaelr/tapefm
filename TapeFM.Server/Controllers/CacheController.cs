@@ -7,7 +7,7 @@ namespace TapeFM.Server.Controllers
     {
         public void Delete()
         {
-            ApplicationCache.Clear();
+            Database.Clear();
         }
     }
 }
