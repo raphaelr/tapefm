@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using TapeFM.Server.Code;
@@ -8,7 +9,7 @@ namespace TapeFM.Server.Models.Dao
 {
     public static class SongDao
     {
-        private static readonly string[] ValidExtensions = {".mp3", ".m4a", ".flac"};
+        private static readonly string[] ValidExtensions = {".mp3", ".m4a", ".flac", ".ogg"};
         private static readonly ICacheEntry<List<Song>> CachedAllSongs =
             ApplicationCache.CreateEntry("songs_all", GetAllUncached);
 
@@ -19,11 +20,31 @@ namespace TapeFM.Server.Models.Dao
 
         private static List<Song> GetAllUncached()
         {
-            return Directory
-                .EnumerateFileSystemEntries(TapeFmConfig.LibraryDirectory, "*", SearchOption.AllDirectories)
-                .Where(x => ValidExtensions.Contains(Path.GetExtension(x)))
+            var paths = new List<string>();
+            AddDirectory(paths, TapeFmConfig.LibraryDirectory);
+            return paths
                 .Select(SongFromPath)
                 .ToList();
+        }
+
+        private static void AddDirectory(List<string> target, string directory)
+        {
+            var entries = new DirectoryInfo(directory);
+            foreach (var info in entries.EnumerateFileSystemInfos())
+            {
+                if (info.Name == "." || info.Name == "..")
+                {
+                    continue;
+                }
+                if ((info.Attributes & (FileAttributes.ReparsePoint | FileAttributes.Directory)) != 0)
+                {
+                    AddDirectory(target, info.FullName);
+                }
+                else if(ValidExtensions.Contains(info.Extension))
+                {
+                    target.Add(info.FullName);
+                }
+            }
         }
 
         private static readonly Uri LibraryUri = new Uri(TapeFmConfig.LibraryDirectory);
