@@ -29,13 +29,13 @@ namespace TapeFM.Server.Models.Dao
         private static void AddDirectory(List<string> target, string directory)
         {
             var entries = new DirectoryInfo(directory);
-            foreach (var info in entries.EnumerateFileSystemInfos())
+            foreach (var info in entries.GetFileSystemInfos())
             {
                 if (info.Name == "." || info.Name == "..")
                 {
                     continue;
                 }
-                if ((info.Attributes & (FileAttributes.ReparsePoint | FileAttributes.Directory)) != 0)
+                if ((info.Attributes & FileAttributes.Directory) != 0)
                 {
                     AddDirectory(target, info.FullName);
                 }
