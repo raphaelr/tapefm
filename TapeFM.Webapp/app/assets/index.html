@@ -21,8 +21,11 @@
         
         <!-- ko with: library -->
         <div class="page library">
-            <div data-bind="foreach: breadcrumbs" class="pathbar">
-                <span data-bind="text: name, click: open" class="part"></span>
+            <div class="pathbar">
+                <div data-bind="foreach: breadcrumbs" class="breadcrumbs">
+                    <span data-bind="text: name, click: open" class="part"></span>
+                </div>
+                <div data-bind="click: openSettings" class="settings-button"></div>
             </div>
 
             <div data-bind="foreach: entries" class="entries">
@@ -34,6 +37,24 @@
                 <div data-bind="text: currentSong" class="current-song"></div>
                 <div data-bind="click: skip" class="skip"></div>
                 <div data-bind="text: listenStatus, click: toggleListen" class="toggle-listen"></div>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko with: settings -->
+        <div class="page settings">
+            <div class="setting">
+                <input type="button" data-bind="click: back" value="Back"><br>
+            </div>
+            <div class="setting">
+                <span>Bitrate: </span>
+                <input type="range" data-bind="value: bitrate" min="10" max="500">
+                <span data-bind="text: bitrate"></span> kbps
+            </div>
+
+            <div style="height: 70px"></div>
+            <div class="setting">
+                <input type="button" data-bind="click: rescanLibrary" value="Rescan Library">
             </div>
         </div>
         <!-- /ko -->

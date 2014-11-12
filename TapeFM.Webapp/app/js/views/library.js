@@ -34,6 +34,14 @@
             };
         });
 
+        self.openSettings = function() {
+            app.navigateTo.settings({
+                back: function() {
+                    app.navigateTo.library(directory);
+                }
+            });
+        };
+
         return self;
     }
 });

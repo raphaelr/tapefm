@@ -34,11 +34,4 @@
 }
 
 window.app = new TapeFmApplication();
-
-document.addEventListener("DOMContentLoaded", function() {
-    app.initialize();
-    var loader = new LibraryLoader();
-    loader.onLoad(function() {
-        app.navigateTo.library(loader.rootDirectory);
-    });
-});
+$(app.initialize);

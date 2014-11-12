@@ -1,6 +1,9 @@
 ﻿app.registerView({
     name: "loading",
     constructor: function() {
-        // nop
+        var loader = new LibraryLoader();
+        loader.onLoad(function() {
+            app.navigateTo.library(loader.rootDirectory);
+        });
     }
 });

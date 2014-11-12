@@ -8,9 +8,14 @@ $bg-entry-directory: #178DB2;
     flex-direction: column;
 
     .pathbar {
+        display: flex;
         background-color: $bg-header-footer-inner;
         font-size: 30px;
         line-height: 36px;
+        
+        .breadcrumbs {
+            flex: 1 1 auto;
+        }
 
         .part::before {
             content: "▶";
@@ -20,6 +25,15 @@ $bg-entry-directory: #178DB2;
 
         .part:first-child::before {
             content: "";
+        }
+
+        .settings-button {
+            background-color: $bg-header-footer-outer;
+            min-width: 50px;
+            text-align: center;
+        }
+        .settings-button::before {
+            content: "⚙";
         }
     }
 
