@@ -32,6 +32,7 @@
         };
 
         self.skip = function() {
+            $.post("/api/control/skip");
         };
 
         self.toggleListen = function() {

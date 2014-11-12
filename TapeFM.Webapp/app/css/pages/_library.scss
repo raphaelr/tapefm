@@ -66,9 +66,20 @@ $bg-entry-directory: #178DB2;
         }
 
         .skip, .toggle-listen {
-            flex: 0 0 auto;
+            width: 100px;
             text-align: center;
-			background-color: $bg-header-footer-outer;
+        }
+
+        .skip {
+            background-color: $bg-header-footer-outer;
+        }
+        .skip::before {
+            content: "▶▶";
+            letter-spacing: -15px;
+        }
+
+        .toggle-listen {
+			background-color: $bg-header-footer-inner;
         }
     }
 }

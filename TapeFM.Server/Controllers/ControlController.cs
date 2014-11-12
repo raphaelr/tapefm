@@ -10,7 +10,7 @@ namespace TapeFM.Server.Controllers
         [HttpPost, Route("current_track")]
         public void SetCurrentTrack(Song song)
         {
-            var station = RadioStationManager.GetDefault();
+            var station = GetStation();
             station.Playlist.OverrideNext(song.Path);
             station.Skip();
         }
@@ -18,13 +18,23 @@ namespace TapeFM.Server.Controllers
         [HttpPost, Route("bitrate")]
         public IHttpActionResult SetBitrate(int kbps)
         {
-            var station = RadioStationManager.GetDefault();
             if (kbps > 10 && kbps < 1000)
             {
-                station.BitrateKbps = kbps;
+                GetStation().BitrateKbps = kbps;
                 return Ok();
             }
             return BadRequest("Invalid bitrate");
+        }
+
+        [HttpPost, Route("skip")]
+        public void Skip()
+        {
+            GetStation().Skip();
+        }
+
+        private RadioStation GetStation()
+        {
+            return RadioStationManager.GetDefault();
         }
     }
 }
