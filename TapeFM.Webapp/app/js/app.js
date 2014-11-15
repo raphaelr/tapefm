@@ -25,7 +25,6 @@
     }
 
     self.initialize = function () {
-        $.connection.hub.start();
         ko.applyBindings(views);
         self.navigateTo.loading();
     };

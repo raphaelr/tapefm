@@ -2,12 +2,17 @@
     var self = {};
 
     function init() {
-        var trackservice = $.connection.trackservice;
-        trackservice.client.setCurrentTrack = publishTrack;
-
-        $.get("/api/status", function(status) {
-            publishTrack(status.currentTrack || "");
+        $.connection.trackservice.client.setCurrentTrack = publishTrack;
+        $.connection.hub.disconnected(function() {
+            setTimeout(function() {
+                reconnect();
+            }, 5000);
         });
+        reconnect();
+    }
+
+    function reconnect() {
+        $.connection.hub.start();
     }
 
     function publishTrack(track) {
