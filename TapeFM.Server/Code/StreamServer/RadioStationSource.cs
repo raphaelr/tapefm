@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
 using TapeFM.Server.Models;
 
 namespace TapeFM.Server.Code.StreamServer
 {
     public class RadioStationSource
     {
+        private static readonly TraceSource Trace = Logger.GetComponent("RadioStationSource");
+
         private readonly object _syncRoot;
         private readonly Decoder _decoder;
         private readonly Playlist _playlist;
@@ -52,6 +55,7 @@ namespace TapeFM.Server.Code.StreamServer
         {
             lock (_syncRoot)
             {
+                Trace.TraceEvent(TraceEventType.Verbose, 0, "Skipping current source");
                 _decoder.Stop();
                 _isSilence = false;
                 _isEof = true;
@@ -62,6 +66,8 @@ namespace TapeFM.Server.Code.StreamServer
         {
             if (_isEof)
             {
+                Trace.TraceEvent(TraceEventType.Verbose, 0, "Current source ended, moving on to next");
+
                 var next = _playlist.Next();
                 _isEof = false;
                 OnCurrentSourceChanged(next);
@@ -76,6 +82,7 @@ namespace TapeFM.Server.Code.StreamServer
 
         protected virtual void OnCurrentSourceChanged(string e)
         {
+            Trace.TraceEvent(TraceEventType.Verbose, 0, "Current source changed to '{0}'", e);
             CurrentSource = e;
             var handler = CurrentSourceChanged;
             if (handler != null) handler(this, e);

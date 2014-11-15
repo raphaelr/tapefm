@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Security.Permissions;
 using TapeFM.Server.Controllers;
 
 namespace TapeFM.Server.Code.StreamServer
 {
     public static class RadioStationManager
     {
+        private static readonly TraceSource Trace = Logger.GetComponent("RadioStationManager");
         private static readonly ConcurrentDictionary<string, RadioStation> Stations;
 
         static RadioStationManager()
@@ -35,6 +38,7 @@ namespace TapeFM.Server.Code.StreamServer
                 key = Guid.NewGuid().ToString("N");
             }
 
+            Trace.TraceEvent(TraceEventType.Information, 0, "Creating new station with key {0}", key);
             var station = new RadioStation(key);
             station.TooLongIdle += (_, __) => RemoveStation(station);
             station.CurrentSourceChanged += Trackservice.Publish;
@@ -46,6 +50,7 @@ namespace TapeFM.Server.Code.StreamServer
         {
             if (station != null)
             {
+                Trace.TraceEvent(TraceEventType.Information, 0, "Removing station with key {0}", station.Key);
                 RadioStation tmp;
                 if (Stations.TryRemove(station.Key, out tmp))
                 {

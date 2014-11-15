@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -8,6 +9,8 @@ namespace TapeFM.Server.Code
 {
     public static class Database
     {
+        private static readonly TraceSource Trace = Logger.GetComponent("Database");
+
         public const string CacheKeySongs = "cached_songs";
 
         private static readonly IDatabase Redis;
@@ -31,6 +34,7 @@ namespace TapeFM.Server.Code
 
         public static void Clear()
         {
+            Trace.TraceEvent(TraceEventType.Warning, 0, "Clearing Redis cache");
             Redis.KeyDelete(CacheKeySongs, CommandFlags.FireAndForget);
         }
 

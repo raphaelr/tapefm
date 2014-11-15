@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using TapeFM.Server.Code;
@@ -8,6 +9,8 @@ namespace TapeFM.Server.Models.Dao
 {
     public static class SongDao
     {
+        private static readonly TraceSource Trace = Logger.GetComponent("SongDao");
+
         private static readonly string[] ValidExtensions = {".mp3", ".m4a", ".flac", ".ogg"};
         private static readonly ICacheEntry<List<Song>> CachedAllSongs =
             Database.CreateEntry(Database.CacheKeySongs, GetAllUncached);
@@ -19,6 +22,7 @@ namespace TapeFM.Server.Models.Dao
 
         private static List<Song> GetAllUncached()
         {
+            Trace.TraceEvent(TraceEventType.Information, 0, "Reloading song library");
             var paths = new List<string>();
             AddDirectory(paths, TapeFmConfig.LibraryDirectory);
             return paths

@@ -14,11 +14,11 @@ namespace TapeFM.Server.Code
     {
         public void Configuration(IAppBuilder app)
         {
+            TapeFmConfig.Load();
+
             app.UseFileServer(new FileServerOptions { FileSystem = new PhysicalFileSystem("../TapeFM.Webapp/public") });
             app.MapSignalR();
             app.UseWebApi(CreateWebApiConfig());
-
-            TapeFmConfig.Load();
         }
 
         private static HttpConfiguration CreateWebApiConfig()

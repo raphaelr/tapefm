@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using TapeFM.Server.Code;
 using TapeFM.Server.Code.StreamServer;
 using TapeFM.Server.Code.StreamServer.Mux;
 
@@ -9,6 +11,8 @@ namespace TapeFM.Server.Controllers.StreamServer
 {
     public class ListenStreamController : ApiController
     {
+        private static TraceSource Trace = Logger.GetComponent("ListenStreamController");
+
         [Route("listen/stream")]
         public HttpResponseMessage Get(HttpRequestMessage message)
         {
@@ -51,6 +55,8 @@ namespace TapeFM.Server.Controllers.StreamServer
                 NoCache = true
             };
 
+            Trace.TraceEvent(TraceEventType.Information, 0, "Listener with IP {0} connected",
+                message.GetOwinContext().Request.RemoteIpAddress);
             return response;
         }
     }

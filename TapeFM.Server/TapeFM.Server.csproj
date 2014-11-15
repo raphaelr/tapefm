@@ -46,6 +46,9 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Framework.ConfigurationModel">
+      <HintPath>..\packages\Microsoft.Framework.ConfigurationModel.1.0.0-beta1\lib\net45\Microsoft.Framework.ConfigurationModel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -129,6 +132,7 @@
     <Compile Include="Code\Database.cs" />
     <Compile Include="Code\BetterRandomNumberGenerator.cs" />
     <Compile Include="Code\ICacheEntry.cs" />
+    <Compile Include="Code\Logger.cs" />
     <Compile Include="Code\Startup.cs" />
     <Compile Include="Code\StreamServer\BufferHelper.cs" />
     <Compile Include="Code\StreamServer\Decoder.cs" />
@@ -142,9 +146,7 @@
     <Compile Include="Code\StreamServer\RadioStationManager.cs" />
     <Compile Include="Code\StreamServer\RadioStationSource.cs" />
     <Compile Include="Code\StreamServer\RadioStationStreamer.cs" />
-    <Compile Include="Code\StreamServer\StreamMultiplexer.cs" />
     <Compile Include="Code\TapeFmConfig.cs" />
-    <Compile Include="Code\Utility.cs" />
     <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\ControlController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
@@ -165,7 +167,7 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="tapefm.config" />
+    <None Include="tapefm.ini" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

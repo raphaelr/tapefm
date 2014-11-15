@@ -6,6 +6,7 @@ namespace TapeFM.Server.Code.StreamServer
 {
     public class RadioStationStreamer
     {
+        private static readonly TraceSource Trace = Logger.GetComponent("RadioStationStreamer");
         private static readonly TimeSpan IdleTimeToLive = TimeSpan.FromMinutes(5);
 
         private const int NumChannels = 2;
@@ -46,6 +47,7 @@ namespace TapeFM.Server.Code.StreamServer
 
         public void Run()
         {
+            Trace.TraceEvent(TraceEventType.Information, 0, "Streamer starting");
             while (true)
             {
                 _syncClock.Restart();
@@ -76,6 +78,7 @@ namespace TapeFM.Server.Code.StreamServer
 
         public void Stop()
         {
+            Trace.TraceEvent(TraceEventType.Information, 0, "Stopping");
             lock (_syncRoot)
             {
                 _stopFlag = true;
@@ -119,6 +122,7 @@ namespace TapeFM.Server.Code.StreamServer
         {
             if (_lastPublish + IdleTimeToLive < DateTime.Now)
             {
+                Trace.TraceEvent(TraceEventType.Information, 0, "Commiting suicide because nobody is listening");
                 var handler = TooLongIdle;
                 if (handler != null) handler(this, EventArgs.Empty);
             }
