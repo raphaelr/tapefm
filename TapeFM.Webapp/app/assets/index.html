@@ -10,6 +10,7 @@
         <script src="signalr/hubs"></script>
         <script src="app.js"></script>
         
+        <link rel="stylesheet" href="vendor.css">
         <link rel="stylesheet" href="app.css">
     </head>
     <body>
@@ -23,9 +24,10 @@
         <div class="page library">
             <div class="pathbar">
                 <div data-bind="foreach: breadcrumbs" class="breadcrumbs">
-                    <span data-bind="text: name, click: open" class="part"></span>
+                    <span data-bind="text: name, css: { fa: isRoot, 'fa-headphones': isRoot }, click: open"></span>
+                    <span class="spacer fa fa-caret-right"></span>
                 </div>
-                <div data-bind="click: openSettings" class="settings-button"></div>
+                <div data-bind="click: openSettings" class="settings-button fa fa-cog"></div>
             </div>
 
             <div data-bind="foreach: entries" class="entries">
@@ -33,10 +35,10 @@
             </div>
 
             <div data-bind="with: $root.controls" class="controls">
-                <div data-bind="text: pauseStatus, click: togglePause" class="toggle-pause"></div>
+                <div data-bind="css: { 'fa-play': isPaused, 'fa-pause': !isPaused() }, click: togglePause" class="toggle-pause fa"></div>
                 <div data-bind="text: currentSong" class="current-song"></div>
-                <div data-bind="click: skip" class="skip"></div>
-                <div data-bind="text: listenStatus, click: toggleListen" class="toggle-listen"></div>
+                <div data-bind="click: skip" class="skip fa fa-forward"></div>
+                <div data-bind="css: { 'fa-volume-up': isListening, 'fa-volume-off': !isListening() }, click: toggleListen" class="toggle-listen fa"></div>
             </div>
         </div>
         <!-- /ko -->

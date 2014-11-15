@@ -19,25 +19,20 @@ $bg-entry-directory: #178DB2;
         
         .breadcrumbs {
             flex: 1 1 auto;
-        }
 
-        .part::before {
-            content: "▶";
-            font-size: 17px;
-            opacity: 0.4;
-        }
+            .spacer {
+                opacity: 0.5;
+            }
 
-        .part:first-child::before {
-            content: "";
+            .spacer:last-child {
+                display: none;
+            }
         }
 
         .settings-button {
             background-color: $bg-header-footer-outer;
             min-width: 50px;
             text-align: center;
-        }
-        .settings-button::before {
-            content: "⚙";
         }
     }
 
@@ -76,10 +71,6 @@ $bg-entry-directory: #178DB2;
 
         .skip {
             background-color: $bg-header-footer-outer;
-        }
-        .skip::before {
-            content: "▶▶";
-            letter-spacing: -15px;
         }
 
         .toggle-listen {

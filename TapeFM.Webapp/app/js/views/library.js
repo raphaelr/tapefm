@@ -6,14 +6,17 @@
         var breadcrumbs = [];
         var head = directory;
         while (head) {
-            breadcrumbs.unshift({
-                name: head.parent ? head.name : "🎧",
+            var breadcrumb = {
+                name: head.parent ? head.name : " ",
+                isRoot: !head.parent,
                 open: (function(head) {
                     return function() {
                         app.navigateTo.library(head);
-                    }
+                    };
                 }(head))
-            });
+            };
+
+            breadcrumbs.unshift(breadcrumb);
             head = head.parent;
         }
 

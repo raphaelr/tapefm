@@ -14,22 +14,13 @@
             });
         }
 
-        var isPaused = ko.observable(false);
-        var isListening = ko.observable(false);
-
         self.currentSong = ko.observable();
-
-        self.pauseStatus = ko.computed(function() {
-            return isPaused() ? "▶" : "❚❚";
-        });
-
-        self.listenStatus = ko.computed(function () {
-            return isListening() ? "🔊" : "🔇";
-        });
+        self.isPaused = ko.observable(false);
+        self.isListening = ko.observable(false);
 
         self.togglePause = function() {
-            isPaused(!isPaused());
-            $.post("/api/control/pause?paused=" + isPaused());
+            self.isPaused(!self.isPaused());
+            $.post("/api/control/pause?paused=" + self.isPaused());
         };
 
         self.skip = function() {
@@ -37,8 +28,8 @@
         };
 
         self.toggleListen = function() {
-            isListening(!isListening());
-            player.setActive(isListening());
+            self.isListening(!self.isListening());
+            player.setActive(self.isListening());
         };
 
         init();

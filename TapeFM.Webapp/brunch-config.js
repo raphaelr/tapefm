@@ -8,7 +8,8 @@ exports.config = {
         },
         stylesheets: {
             joinTo: {
-                "app.css": /^app/
+                "app.css": /^app/,
+                "vendor.css": /^bower_components/
             }
         }
     },
