@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Security.Permissions;
 using TapeFM.Server.Controllers;
 
 namespace TapeFM.Server.Code.StreamServer
@@ -39,11 +38,19 @@ namespace TapeFM.Server.Code.StreamServer
             }
 
             Trace.TraceEvent(TraceEventType.Information, 0, "Creating new station with key {0}", key);
-            var station = new RadioStation(key);
-            station.TooLongIdle += (_, __) => RemoveStation(station);
-            station.CurrentSourceChanged += Trackservice.Publish;
-            station.Start();
-            return station;
+            try
+            {
+                var station = new RadioStation(key);
+                station.TooLongIdle += (_, __) => RemoveStation(station);
+                station.CurrentSourceChanged += Trackservice.Publish;
+                station.Start();
+                return station;
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceException("Error while creating new station", ex);
+                throw;
+            }
         }
 
         private static void RemoveStation(RadioStation station)

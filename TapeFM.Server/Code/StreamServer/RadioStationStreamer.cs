@@ -48,17 +48,30 @@ namespace TapeFM.Server.Code.StreamServer
         public void Run()
         {
             Trace.TraceEvent(TraceEventType.Information, 0, "Streamer starting");
+            try
+            {
+                MainLoop();
+            }
+            catch (Exception e)
+            {
+                Trace.TraceException("Exception on encoding thread", e);
+                throw;
+            }
+        }
+
+        private void MainLoop()
+        {
             while (true)
             {
                 _syncClock.Restart();
                 var ok = DoOneFrame();
-                var msAhead = FrameDurationMs - (int)_syncClock.ElapsedMilliseconds - 1;
+                var msAhead = FrameDurationMs - (int) _syncClock.ElapsedMilliseconds - 1;
                 if (msAhead > 0)
                 {
                     Thread.Sleep(msAhead);
                 }
 
-                if(!ok)
+                if (!ok)
                 {
                     return;
                 }

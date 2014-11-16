@@ -23,5 +23,11 @@ namespace TapeFM.Server.Code
             source.Listeners.Add(new ConsoleTraceListener());
             return source;
         }
+
+        public static void TraceException(this TraceSource source, string message, Exception e)
+        {
+            source.TraceEvent(TraceEventType.Error, 0, "{0}: {1}: {2}\nStack Trace:\n{3}",
+                    message, e.GetType().Name, e.Message, e.StackTrace);
+        }
     }
 }

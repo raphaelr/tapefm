@@ -56,6 +56,9 @@
     <Reference Include="Microsoft.Owin.FileSystems">
       <HintPath>..\packages\Microsoft.Owin.FileSystems.3.0.0\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
@@ -133,6 +136,7 @@
     <Compile Include="Code\BetterRandomNumberGenerator.cs" />
     <Compile Include="Code\ICacheEntry.cs" />
     <Compile Include="Code\Logger.cs" />
+    <Compile Include="Code\Program.cs" />
     <Compile Include="Code\Startup.cs" />
     <Compile Include="Code\StreamServer\BufferHelper.cs" />
     <Compile Include="Code\StreamServer\Decoder.cs" />

@@ -33,12 +33,14 @@ namespace TapeFM.Server.Code.StreamServer
             _numChannels = channels;
             int error;
             
+            Trace.TraceEvent(TraceEventType.Information, 0, "Creating Opus Encoder");
             _encoder = NativeOpus.opus_encoder_create(samplingRate, channels, (int)application, out error);
             if (error != 0)
             {
                 Trace.TraceEvent(TraceEventType.Error, 0, "Opus error while creating encoder: {0}", error);
                 throw new Exception("Opus error: " + error);
             }
+            Trace.TraceEvent(TraceEventType.Verbose, 0, "Created Encoder");
             BitrateKbps = 300;
         }
 
