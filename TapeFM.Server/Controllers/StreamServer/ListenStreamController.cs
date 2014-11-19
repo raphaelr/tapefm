@@ -11,7 +11,7 @@ namespace TapeFM.Server.Controllers.StreamServer
 {
     public class ListenStreamController : ApiController
     {
-        private static TraceSource Trace = Logger.GetComponent("ListenStreamController");
+        private static readonly TraceSource Trace = Logger.GetComponent("ListenStreamController");
 
         [Route("listen/stream")]
         public HttpResponseMessage Get(HttpRequestMessage message)

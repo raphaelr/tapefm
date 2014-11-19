@@ -16,11 +16,9 @@
     },
 
     "frameworks": {
-        "aspnet50": {
-            "frameworkAssemblies": {
-                "System.Runtime.Serialization": "4.0.0.0",
-                "System.Runtime.Serialization.Json": "4.0.0.0",
-                "System.Xml": "4.0.0.0",
+        "aspnet50": { },
+        "aspnetcore50": {
+            "dependencies": {
             }
         }
     },

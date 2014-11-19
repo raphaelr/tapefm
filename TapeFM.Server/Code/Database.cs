@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization.Json;
-using System.Text;
+using Newtonsoft.Json.Linq;
 using StackExchange.Redis;
 
 namespace TapeFM.Server.Code
@@ -40,27 +38,18 @@ namespace TapeFM.Server.Code
 
         private static string Serialize<T>(T value)
         {
-            var serializer = new DataContractJsonSerializer(typeof (T));
-            using (var stream = new MemoryStream())
-            {
-                serializer.WriteObject(stream, value);
-                return Encoding.UTF8.GetString(stream.ToArray());
-            }
+            return JToken.FromObject(value).ToString();
         }
 
         private static T Deserialize<T>(string value)
         {
-            var serializer = new DataContractJsonSerializer(typeof (T));
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(value)))
+            try
             {
-                try
-                {
-                    return (T) serializer.ReadObject(stream);
-                }
-                catch
-                {
-                    return default(T);
-                }
+                return JToken.Parse(value).ToObject<T>();
+            }
+            catch
+            {
+                return default(T);
             }
         }
 
