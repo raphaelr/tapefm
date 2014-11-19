@@ -1,28 +1,26 @@
 {
-    "version": "0.1.0",
-    "dependencies": {
-        "Microsoft.AspNet.SignalR.Core": "2.1.2",
-        "Microsoft.Framework.ConfigurationModel": "1.0.0-beta1",
-        "Microsoft.Owin": "3.0.0",
-        "Microsoft.Owin.FileSystems": "3.0.0",
-        "Microsoft.Owin.Host.HttpListener": "3.0.0",
-        "Microsoft.Owin.Security": "3.0.0",
-        "Microsoft.Owin.StaticFiles": "3.0.0",
-        "Newtonsoft.Json": "6.0.6",
-        "Owin": "1.0",
-        "StackExchange.Redis": "1.0.371",
-        "Microsoft.AspNet.WebApi.Core": "5.2.2",
-        "Microsoft.AspNet.WebApi.Owin": "5.2.2"
-    },
-
-    "frameworks": {
-        "aspnet50": { },
-        "aspnetcore50": {
-            "dependencies": {
-            }
-        }
-    },
-    "commands": {
-        "web": "TapeFM.Server"
-    }
+  "version": "0.1.0",
+  "dependencies": {
+    "Microsoft.AspNet.SignalR.Core": "2.1.2",
+    "Microsoft.Framework.ConfigurationModel": "1.0.0-beta1",
+    "Microsoft.Owin": "3.0.0",
+    "Microsoft.Owin.FileSystems": "3.0.0",
+    "Microsoft.Owin.Host.HttpListener": "3.0.0",
+    "Microsoft.Owin.Hosting": "3.0.0",
+    "Microsoft.Owin.Security": "3.0.0",
+    "Microsoft.Owin.StaticFiles": "3.0.0",
+    "Newtonsoft.Json": "6.0.6",
+    "Nowin": "0.13.2",
+    "Owin": "1.0",
+    "StackExchange.Redis": "1.0.371",
+    "Microsoft.AspNet.WebApi.Core": "5.2.2",
+    "Microsoft.AspNet.WebApi.Owin": "5.2.2"
+  },
+  "frameworks": {
+    "aspnet50": {},
+  },
+  "commands": {
+    "web": "TapeFM.Server",
+    "nowin": "TapeFM.Server host:server=Nowin"
+  }
 }
