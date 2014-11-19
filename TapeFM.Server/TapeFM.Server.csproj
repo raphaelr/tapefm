@@ -114,6 +114,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\DataAccess\IDatabaseAdapter.cs" />
+    <Compile Include="Code\DataAccess\InMemoryDatabaseAdapter.cs" />
+    <Compile Include="Code\DataAccess\RedisDatabaseAdapter.cs" />
     <Compile Include="Code\Database.cs" />
     <Compile Include="Code\BetterRandomNumberGenerator.cs" />
     <Compile Include="Code\ICacheEntry.cs" />

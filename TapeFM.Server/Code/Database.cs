@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
-using StackExchange.Redis;
+using TapeFM.Server.Code.DataAccess;
 
 namespace TapeFM.Server.Code
 {
@@ -9,9 +9,9 @@ namespace TapeFM.Server.Code
     {
         private static readonly TraceSource Trace = Logger.GetComponent("Database");
 
-        public const string CacheKeySongs = "cached_songs";
+        private static readonly IDatabaseAdapter Adapter;
 
-        private static readonly IDatabase Redis;
+        public const string CacheKeySongs = "cached_songs";
 
         public static ICacheEntry<T> CreateEntry<T>(string key, Func<T> factory)
             where T : class
@@ -21,19 +21,19 @@ namespace TapeFM.Server.Code
 
         public static void Save<T>(string key, T value)
         {
-            Redis.StringSet(key, Serialize(value));
+            Adapter.Set(key, Serialize(value));
         }
 
         public static T Get<T>(string key)
         {
-            var value = Redis.StringGet(key);
-            return value.IsNull ? default(T) : Deserialize<T>(value);
+            var value = Adapter.Get(key);
+            return key == null ? default(T) : Deserialize<T>(value);
         }
 
         public static void Clear()
         {
-            Trace.TraceEvent(TraceEventType.Warning, 0, "Clearing Redis cache");
-            Redis.KeyDelete(CacheKeySongs, CommandFlags.FireAndForget);
+            Trace.TraceEvent(TraceEventType.Warning, 0, "Clearing cache");
+            Adapter.Remove(CacheKeySongs);
         }
 
         private static string Serialize<T>(T value)
@@ -55,9 +55,16 @@ namespace TapeFM.Server.Code
 
         static Database()
         {
-            Redis = ConnectionMultiplexer
-                .Connect(TapeFmConfig.RedisServer)
-                .GetDatabase(TapeFmConfig.RedisDatabase);
+            if (!string.IsNullOrEmpty(TapeFmConfig.RedisServer))
+            {
+                Trace.TraceEvent(TraceEventType.Information, 0, "Using Redis Database");
+                Adapter = new RedisDatabaseAdapter();
+            }
+            else
+            {
+                Trace.TraceEvent(TraceEventType.Information, 0, "Using In-Memory Database");
+                Adapter = new InMemoryDatabaseAdapter();
+            }
         }
 
         private class CacheEntry<T> : ICacheEntry<T>
@@ -78,14 +85,14 @@ namespace TapeFM.Server.Code
                 if (value == default(T))
                 {
                     value = _factory();
-                    Redis.StringSet(_key, Serialize(value), flags: CommandFlags.FireAndForget);
+                    Adapter.Set(_key, Serialize(value));
                 }
                 return value;
             }
 
             public void Invalidate()
             {
-                Redis.KeyDelete(_key, CommandFlags.FireAndForget);
+                Adapter.Remove(_key);
             }
         }
     }
