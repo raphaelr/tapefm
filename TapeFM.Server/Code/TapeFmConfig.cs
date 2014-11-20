@@ -17,7 +17,7 @@ namespace TapeFM.Server.Code
 
             LibraryDirectory = Configuration.Get("tapefm:LibraryDirectory");
             RedisServer = Configuration.Get("tapefm:RedisServer");
-            RedisDatabase = Configuration.Get<int>("tapefm:RedisDatabase");
+            RedisDatabase = Configuration.GetInt("tapefm:RedisDatabase");
         }
 
         private static IConfiguration CreateConfiguration(string[] commandLineArgs)
@@ -32,6 +32,14 @@ namespace TapeFM.Server.Code
             }
 
             return config;
+        }
+
+        private static int GetInt(this IConfiguration config, string key)
+        {
+            var str = config.Get(key);
+            int result;
+            int.TryParse(str, out result);
+            return result;
         }
     }
 }
