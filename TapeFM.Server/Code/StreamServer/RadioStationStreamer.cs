@@ -61,14 +61,16 @@ namespace TapeFM.Server.Code.StreamServer
 
         private void MainLoop()
         {
+            _syncClock.Start();
+            var audioMs = 0L;
             while (true)
             {
-                _syncClock.Restart();
                 var ok = DoOneFrame();
-                var msAhead = FrameDurationMs - (int) _syncClock.ElapsedMilliseconds - 1;
+                audioMs += FrameDurationMs;
+                var msAhead = audioMs - _syncClock.ElapsedMilliseconds;
                 if (msAhead > 0)
                 {
-                    Thread.Sleep(msAhead);
+                    Thread.Sleep((int) msAhead);
                 }
 
                 if (!ok)
