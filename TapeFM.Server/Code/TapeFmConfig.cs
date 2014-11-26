@@ -1,4 +1,7 @@
-﻿using Microsoft.Framework.ConfigurationModel;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using Microsoft.Framework.ConfigurationModel;
 
 namespace TapeFM.Server.Code
 {
@@ -15,9 +18,24 @@ namespace TapeFM.Server.Code
             if (Configuration != null) return;
             Configuration = CreateConfiguration(commandLineArgs);
 
-            LibraryDirectory = Configuration.Get("tapefm:LibraryDirectory");
+            LibraryDirectory = CleanPath(Configuration.Get("tapefm:LibraryDirectory"));
             RedisServer = Configuration.Get("tapefm:RedisServer");
             RedisDatabase = Configuration.GetInt("tapefm:RedisDatabase");
+
+            if (!Directory.Exists(LibraryDirectory))
+            {
+                Logger.GetComponent("TapeFmConfig")
+                    .TraceEvent(TraceEventType.Critical, 0, "Specified library directory does not exist: {0}",
+                        LibraryDirectory);
+                throw new ApplicationException("Fatal error, exiting");
+            }
+        }
+
+        private static string CleanPath(string path)
+        {
+            return Path.GetFullPath(path)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                   + Path.DirectorySeparatorChar;
         }
 
         private static IConfiguration CreateConfiguration(string[] commandLineArgs)
