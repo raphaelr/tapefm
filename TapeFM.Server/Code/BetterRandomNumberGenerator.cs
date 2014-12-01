@@ -29,14 +29,14 @@ namespace TapeFM.Server.Code
         // WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
         // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
         // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-        public int Next(int max)
+        public uint Next(uint max)
         {
             if (max < 2)
             {
                 return 0;
             }
 
-            int r, min = -max%max;
+            uint r, min = (uint) -max%max;
             for (;;)
             {
                 r = Next();
@@ -49,10 +49,10 @@ namespace TapeFM.Server.Code
             return r%max;
         }
 
-        private int Next()
+        private uint Next()
         {
             _rng.GetBytes(_buffer);
-            return BitConverter.ToInt32(_buffer, 0);
+            return BitConverter.ToUInt32(_buffer, 0);
         }
     }
 }

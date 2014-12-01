@@ -80,7 +80,7 @@ namespace TapeFM.Server.Models
         private string GetRandomSong()
         {
             var songs = SongDao.GetAll();
-            var next = songs[_rng.Next(songs.Count)];
+            var next = songs[(int) _rng.Next((uint) songs.Count)];
             return next.Path;
         }
 
