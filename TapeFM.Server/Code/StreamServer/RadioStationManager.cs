@@ -42,7 +42,7 @@ namespace TapeFM.Server.Code.StreamServer
             {
                 var station = new RadioStation(key);
                 station.TooLongIdle += (_, __) => RemoveStation(station);
-                station.CurrentSourceChanged += Trackservice.Publish;
+                station.CurrentSourceChanged += (sender, e) => StatusUpdates.NotifyListeners();
                 station.Start();
                 return station;
             }
