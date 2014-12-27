@@ -3,7 +3,9 @@ Ext.define("TapeFM.model.ServerStatus", {
 
     fields: [
         { name: "currentTrack", type: "string" },
-        { name: "isPaused", type: "boolean" }
+        { name: "isPaused", type: "boolean" },
+        { name: "bitrateKbps", type: "int" },
+        { name: "emptyPlaylistMode", type: "string" }
     ],
 
     proxy: {
@@ -31,7 +33,27 @@ Ext.define("TapeFM.model.ServerStatus", {
         });
         reconnect();
     },
-    
+
+    patch: function(data) {
+        Ext.Ajax.request({
+            url: "/api/status",
+            method: "POST",
+            jsonData: data,
+
+            scope: this,
+            success: function() {
+                this.load();
+            }
+        });
+    },
+
+    skip: function() {
+        Ext.Ajax.request({
+            url: "/api/skip",
+            method: "POST"
+        });
+    },
+
     statics: {
         getInstance: function() {
             if(!this.instance) {

@@ -14,11 +14,7 @@ Ext.define("TapeFM.view.Main", {
 
     tbar: {
         xtype: "breadcrumbbar",
-        reference: "breadcrumbs",
-
-        listeners: {
-            breadcrumbclick: "onBreadcrumbClick"
-        }
+        reference: "breadcrumbs"
     },
 
     bbar: {
@@ -28,8 +24,4 @@ Ext.define("TapeFM.view.Main", {
     columns: [
         { text: "Name", dataIndex: "name", flex: 1 }
     ],
-
-    listeners: {
-        itemclick: "onItemClick"
-    }
 });

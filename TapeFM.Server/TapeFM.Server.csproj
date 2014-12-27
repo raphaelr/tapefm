@@ -144,11 +144,11 @@
     <Compile Include="Code\StreamServer\RadioStationStreamer.cs" />
     <Compile Include="Code\TapeFmConfig.cs" />
     <Compile Include="Controllers\CacheController.cs" />
-    <Compile Include="Controllers\ControlController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\StreamServer\ListenController.cs" />
     <Compile Include="Controllers\BrowseController.cs" />
     <Compile Include="Controllers\StreamServer\ListenStreamController.cs" />
+    <Compile Include="Controllers\StreamServer\SkipController.cs" />
     <Compile Include="Controllers\Trackservice.cs" />
     <Compile Include="Models\Dao\RadioStationConfigurationDao.cs" />
     <Compile Include="Models\Dao\SongDao.cs" />

@@ -17,6 +17,14 @@ Ext.define("TapeFM.view.PlayerBar", {
         {
             bind: {
                 text: "{playPauseCommand}"
+            },
+            listeners: {
+                click: function() {
+                    var serverStatus = TapeFM.model.ServerStatus.getInstance();
+                    serverStatus.patch({
+                        isPaused: !serverStatus.get("isPaused")
+                    });
+                }
             }
         },
         {
@@ -27,7 +35,14 @@ Ext.define("TapeFM.view.PlayerBar", {
             }
         },
         {
-            xtype: "button",
+            text: "Skip",
+            listeners: {
+                click: function() {
+                    TapeFM.model.ServerStatus.getInstance().skip();
+                }
+            }
+        },
+        {
             controller: "player",
             viewModel: {
                 data: {

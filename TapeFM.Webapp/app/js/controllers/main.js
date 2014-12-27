@@ -3,6 +3,20 @@ Ext.define("TapeFM.controller.Main", {
     alias: "controller.main",
 
     init: function() {
+        this.control({
+            "gridpanel": {
+                rowclick: {
+                    scope: this,
+                    fn: this.onRowClick
+                }
+            },
+            "breadcrumbbar": {
+                breadcrumbclick: {
+                    scope: this,
+                    fn: this.onBreadcrumbClick
+                }
+            }
+        });
         this.browse("/");
     },
 
@@ -18,9 +32,13 @@ Ext.define("TapeFM.controller.Main", {
         });
     },
 
-    onItemClick: function(sender, record) {
+    onRowClick: function(sender, record) {
         if(record.get("isDirectory")) {
             this.browse(record.get("fullPath"));
+        } else {
+            TapeFM.model.ServerStatus.getInstance().patch({
+                currentTrack: record.get("fullPath")
+            });
         }
     },
 
