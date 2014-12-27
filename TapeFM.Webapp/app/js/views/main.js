@@ -1,6 +1,8 @@
 Ext.define("TapeFM.view.Main", {
     extend: "Ext.grid.Panel",
-    controller: "Main",
+    controller: "main",
+
+    hideHeaders: true,
 
     store: {
         model: "TapeFM.model.DirectoryEntry",
@@ -19,7 +21,10 @@ Ext.define("TapeFM.view.Main", {
         }
     },
 
-    hideHeaders: true,
+    bbar: {
+        xtype: "playerbar"
+    },
+
     columns: [
         { text: "Name", dataIndex: "name", flex: 1 }
     ],
