@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "main": "public/app.js",
   "dependencies": {
-    "knockoutjs": "~3.2.0",
-	"jquery": "~2.1.1",
-    "signalr": "~2.1.2",
-    "fontawesome": "~4.2.0"
+    "signalr": "~2.1.2"
   },
   "authors": [
     "Raphael Robatsch <raphael-git@tapesoftware.net>"

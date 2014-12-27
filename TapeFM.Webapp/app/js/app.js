@@ -1,36 +1,58 @@
-﻿function TapeFmApplication() {
-    var self = {};
-    var views = {};
-    var currentView = ko.observable();
+﻿Ext.define("TapeFM.model.DirectoryEntry", {
+    extend: "Ext.data.Model",
+    fields: [
+        { name: "isDirectory", type: "boolean" },
+        { name: "name", type: "string" },
+        { name: "fullPath", type: "string" }
+    ]
+});
 
-    self.navigateTo = {};
-    self.dbgViews = views;
+Ext.define("TapeFM.controller.Main", {
+    extend: "Ext.app.ViewController",
+    alias: "controller.Main",
 
-    self.registerView = function(spec) {
-        var name = spec.name;
-        var view = ko.observable();
+    init: function() {
+        this.browse("/");
+    },
 
-        views[name] = ko.computed(function() {
-            return (spec.permanent || currentView() === view()) ? view() : null;
+    browse: function(dirname) {
+        this.getView().getStore().load({
+            params: {
+                dirname: dirname
+            }
         });
+    },
 
-        if (spec.permanent) {
-            view(new spec.constructor());
-        } else {
-            self.navigateTo[name] = function (invocationSpec) {
-                view(new spec.constructor(invocationSpec));
-                currentView(view());
-            };
+    onItemClick: function(sender, record) {
+        if(record.get("isDirectory")) {
+            this.browse(record.get("fullPath"));
         }
     }
+});
 
-    self.initialize = function () {
-        ko.applyBindings(views);
-        self.navigateTo.loading();
-    };
+Ext.define("TapeFM.view.Main", {
+    extend: "Ext.grid.Panel",
+    controller: "Main",
 
-    return self;
-}
+    store: {
+        model: "TapeFM.model.DirectoryEntry",
+        proxy: {
+            type: "ajax",
+            url: "/api/browse"
+        }
+    },
 
-window.app = new TapeFmApplication();
-$(app.initialize);
+    hideHeaders: true,
+    columns: [
+        { text: "Name", dataIndex: "name", flex: 1 }
+    ],
+
+    listeners: {
+        itemclick: "onItemClick"
+    }
+});
+
+Ext.application({
+    name: "TapeFM",
+    autoCreateViewport: "TapeFM.view.Main"
+});

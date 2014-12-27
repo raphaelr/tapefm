@@ -147,11 +147,12 @@
     <Compile Include="Controllers\ControlController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\StreamServer\ListenController.cs" />
-    <Compile Include="Controllers\SongsController.cs" />
+    <Compile Include="Controllers\BrowseController.cs" />
     <Compile Include="Controllers\StreamServer\ListenStreamController.cs" />
     <Compile Include="Controllers\Trackservice.cs" />
     <Compile Include="Models\Dao\RadioStationConfigurationDao.cs" />
     <Compile Include="Models\Dao\SongDao.cs" />
+    <Compile Include="Models\DirectoryEntry.cs" />
     <Compile Include="Models\EmptyPlaylistMode.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\RadioStationConfiguration.cs" />

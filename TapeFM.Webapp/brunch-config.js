@@ -6,12 +6,6 @@ exports.config = {
                 "vendor.js": /^bower_components/
             },
         },
-        stylesheets: {
-            joinTo: {
-                "app.css": /^app/,
-                "vendor.css": /^bower_components/
-            }
-        }
     },
 
     modules: {

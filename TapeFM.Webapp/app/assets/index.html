@@ -1,73 +1,18 @@
 ﻿<!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>102.9 MHz tapeFM</title>
-        
-        <script src="vendor.js"></script>
-        <script src="signalr/hubs"></script>
-        <script src="app.js"></script>
-        
-        <link rel="stylesheet" href="vendor.css">
-        <link rel="stylesheet" href="app.css">
-    </head>
-    <body>
-        <!-- ko with: loading -->
-        <div class="page loading">
-            <h1>102.9 MHz tapeFM - Now Loading</h1>
-        </div>
-        <!-- /ko -->
-        
-        <!-- ko with: library -->
-        <div class="page library">
-            <div class="pathbar">
-                <div data-bind="foreach: breadcrumbs" class="breadcrumbs">
-                    <span data-bind="text: name, css: { fa: isRoot, 'fa-headphones': isRoot }, click: open"></span>
-                    <span class="spacer fa fa-caret-right"></span>
-                </div>
-                <div data-bind="click: openSettings" class="settings-button fa fa-cog"></div>
-            </div>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>102.9 MHz tapeFM</title>
 
-            <div data-bind="foreach: entries" class="entries">
-                <div data-bind="text: name, click: open" class="entry"></div>
-            </div>
-
-            <div data-bind="with: $root.controls" class="controls">
-                <div data-bind="css: { 'fa-play': isPaused, 'fa-pause': !isPaused() }, click: togglePause" class="toggle-pause fa"></div>
-                <div data-bind="text: currentSong" class="current-song"></div>
-                <div data-bind="click: skip" class="skip fa fa-forward"></div>
-                <div data-bind="css: { 'fa-volume-up': isListening, 'fa-volume-off': !isListening() }, click: toggleListen" class="toggle-listen fa"></div>
-            </div>
-        </div>
-        <!-- /ko -->
-
-        <!-- ko with: settings -->
-        <div class="page settings">
-            <div class="setting">
-                <input type="button" data-bind="click: back" value="Back"><br>
-            </div>
-            <div class="setting">
-                <span>Bitrate: </span>
-                <input type="range" data-bind="value: bitrate" min="10" max="500">
-                <span data-bind="text: bitrate"></span> kbps
-            </div>
-
-            <div class="setting">
-                <span>Play on empty playlist:</span>
-                <select data-bind="value: emptyPlaylistMode">
-                    <option value="RandomMix">A random song</option>
-                    <option value="RepeatLast">The last song</option>
-                    <option value="Silence">Silence</option>
-                </select>
-            </div>
-
-            <div style="height: 70px"></div>
-            <div class="setting">
-                <input type="button" data-bind="click: rescanLibrary" value="Rescan Library">
-            </div>
-        </div>
-        <!-- /ko -->
-    </body>
+    <link rel="stylesheet" href="http://cdn.sencha.com/ext/gpl/5.1.0/build/packages/ext-theme-neptune-touch/build/resources/ext-theme-neptune-touch-all.css">
+    <script src="vendor.js"></script>
+    <script src="http://cdn.sencha.com/ext/gpl/5.1.0/build/ext-all-debug.js"></script> 
+    <script src="http://cdn.sencha.com/ext/gpl/5.1.0/build/packages/ext-theme-neptune-touch/build/ext-theme-neptune-touch.js"></script>
+    <script src="signalr/hubs"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+</body>
 </html>
