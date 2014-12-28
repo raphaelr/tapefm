@@ -7,8 +7,8 @@ Ext.define("TapeFM.view.PlayerBar", {
             status: TapeFM.model.ServerStatus.getInstance()
         },
         formulas: {
-            playPauseCommand: function(get) {
-                return get("status.isPaused") ? "Play" : "Pause";
+            playPauseGlyph: function(get) {
+                return String(get("status.isPaused") ? 0xf04b : 0xf04c);
             }
         }
     },
@@ -16,7 +16,7 @@ Ext.define("TapeFM.view.PlayerBar", {
     items: [
         {
             bind: {
-                text: "{playPauseCommand}"
+                glyph: "{playPauseGlyph}"
             },
             listeners: {
                 click: function() {
@@ -35,7 +35,7 @@ Ext.define("TapeFM.view.PlayerBar", {
             }
         },
         {
-            text: "Skip",
+            glyph: 0xf04e,
             listeners: {
                 click: function() {
                     TapeFM.model.ServerStatus.getInstance().skip();
@@ -49,13 +49,13 @@ Ext.define("TapeFM.view.PlayerBar", {
                     isPlaying: false
                 },
                 formulas: {
-                    muteUnmuteCommand: function(get) {
-                        return get("isPlaying") ? "Mute" : "Unmute";
+                    muteUnmuteGlyph: function(get) {
+                        return String(get("isPlaying") ? 0xf028 : 0xf026);
                     }
                 }
             },
             bind: {
-                text: "{muteUnmuteCommand}"
+                glyph: "{muteUnmuteGlyph}"
             }
         }
     ]

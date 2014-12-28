@@ -19,22 +19,22 @@ Ext.define("TapeFM.view.BreadcrumbBar", {
         this.removeAll(true);
         var self = this;
         components.forEach(function(component, index) {
-            var text = component;
-            if(index === 0) {
-                text = "Library";
-            }
-
-            self.add({
-                text: text,
+            var config = {
                 listeners: {
-                    click: {
-                        fn: function() {
-                            var path = components.slice(0, index).join("/");
-                            self.fireEvent("breadcrumbclick", self, path);
-                        }
+                    click: function() {
+                        var path = components.slice(0, index).join("/");
+                        self.fireEvent("breadcrumbclick", self, path);
                     }
                 }
-            });
+            };
+
+            if(index === 0) {
+                config.glyph = 0xf001;
+            } else {
+                config.text = component;
+            }
+
+            self.add(config);
         });
     },
 });
