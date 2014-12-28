@@ -10,6 +10,11 @@ exports.config = {
                 after: ["app/js/app.js"]
             }
         },
+        stylesheets: {
+            joinTo: {
+                "vendor.css": /^bower_components/
+            }
+        }
     },
 
     modules: {
