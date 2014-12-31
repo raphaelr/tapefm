@@ -22,7 +22,7 @@ Ext.define("TapeFM.view.BreadcrumbBar", {
             var config = {
                 listeners: {
                     click: function() {
-                        var path = components.slice(0, index).join("/");
+                        var path = components.slice(0, index+1).join("/");
                         self.fireEvent("breadcrumbclick", self, path);
                     }
                 }
