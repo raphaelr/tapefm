@@ -1,0 +1,15 @@
+.x-toolbar {
+    background-color: red;
+    color: white;
+}
+
+.x-btn-default-toolbar-small, .x-btn-default-toolbar-small.x-btn-over {
+    background: none;
+    border: none;
+}
+
+.x-btn-icon-el-default-toolbar-small.x-btn-glyph,
+.x-btn-inner-default-toolbar-small {
+    color: white;
+    opacity: 1;
+}
